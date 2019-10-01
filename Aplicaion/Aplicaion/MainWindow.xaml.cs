@@ -23,11 +23,10 @@ namespace Aplicaion
         public MainWindow()
         {
             InitializeComponent();
-<<<<<<< HEAD
             int i = 1;
-=======
             int j = 1;
->>>>>>> 66e544eeae6e786a88c2690f1f84e74c697fbb70
+            int x = 2;
+
         }
     }
 }
