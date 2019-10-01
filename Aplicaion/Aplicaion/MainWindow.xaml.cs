@@ -23,6 +23,7 @@ namespace Aplicaion
         public MainWindow()
         {
             InitializeComponent();
+            int i = 1;
         }
     }
 }
