@@ -25,7 +25,12 @@ namespace Aplicaion
             InitializeComponent();
             int i = 1;
             int j = 1;
+<<<<<<< HEAD
             int h = 1;
+=======
+            int x = 2;
+
+>>>>>>> feb0cb6553866db03394bef7eeee20b537c1cf1f
         }
     }
 }
