@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29215.179
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aplicaion", "Aplicaion\Aplicaion.csproj", "{AA6537F1-7720-4FDB-9838-8B19BAF70F72}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MisClases", "..\..\..\Juego de la vida v2\Juego de la Vida\MisClases\MisClases.csproj", "{3BBE415C-A162-4A9F-9C5D-EF0C34A6F11D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MisClases", "MisClases\MisClases.csproj", "{3BBE415C-A162-4A9F-9C5D-EF0C34A6F11D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -16,12 +16,10 @@ using System.Windows.Shapes;
 
 namespace Aplicaion
 {
-    /// <summary>
-    /// Lógica de interacción para MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         Rectangle[][] GraphicGrid;
+        bool Condition = false;
         public MainWindow()
         {
 
@@ -80,6 +78,14 @@ namespace Aplicaion
         private void ColumnSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             ColumnsCount.Content = ColumnSlider.Value.ToString();
+        }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (Combobox_Condition.SelectedIndex != 0)
+                Condition = true;
+            else
+                Condition = false;
         }
     }
 }

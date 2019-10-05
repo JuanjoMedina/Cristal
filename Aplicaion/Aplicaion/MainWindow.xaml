@@ -17,5 +17,15 @@
         <Label x:Name="ColumnsCount" Content="" HorizontalAlignment="Left" Margin="304,93,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.44,0.508" Height="27" Width="50" FontSize="16"/>
         <Slider x:Name="RowsSlider" HorizontalAlignment="Left" VerticalAlignment="Top" Height="24" Width="170" Margin="112,72,0,0" Minimum="5" Maximum="30" ValueChanged="RowsSlider_ValueChanged" SmallChange="1" IsSnapToTickEnabled="True" />
         <Slider x:Name="ColumnSlider" HorizontalAlignment="Left" VerticalAlignment="Top" Height="19" Width="170" Margin="112,101,0,0" Maximum="30" Minimum="5" ValueChanged="ColumnSlider_ValueChanged" IsSnapToTickEnabled="True"/>
+        <ComboBox x:Name="Combobox_Condition" HorizontalAlignment="Left" Margin="27,185,0,0" VerticalAlignment="Top" Width="120" SelectedIndex="0" SelectionChanged="ComboBox_SelectionChanged">
+            <ListBoxItem Content="Select Condition"/>
+            <ListBoxItem Content="Mirror Condition"/>
+            <ListBoxItem Content="Fixed Condition"/>
+        </ComboBox>
+        <Button x:Name="button_Atrás" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="52" Margin="279,306,0,0" Height="46"/>
+        <Button x:Name="button_Play" Content="" HorizontalAlignment="Left" Width="49" Margin="27,306,0,211"/>
+        <Button x:Name="button_Pause" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="54" Margin="112,306,0,0" Height="46"/>
+        <Button x:Name="button_Stop" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="52" Margin="200,306,0,0" Height="46"/>
+        <Button x:Name="button_Adelante" Content="" HorizontalAlignment="Left" Margin="361,306,0,0" VerticalAlignment="Top" Width="57" Height="46"/>
     </Grid>
 </Window>
