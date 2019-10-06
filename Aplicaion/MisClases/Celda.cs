@@ -10,15 +10,17 @@ namespace MisClases
         private double FutureTemperature;
         private double Phase;
         private double FuturePhase;
-        private Rectangle rectangle;
+        private Rectangle rectangleTemp;
+        private Rectangle rectanglePhase;
 
         public Celda()
         {
 
         }
-        public Celda(Rectangle rectangle)
+        public Celda(Rectangle rectangle, Rectangle rectangle2)
         {
-            this.rectangle = rectangle;
+            this.rectangleTemp = rectangle;
+            this.rectanglePhase = rectangle2;
         }
 
         public Celda(Celda celda)
@@ -29,9 +31,13 @@ namespace MisClases
             this.FuturePhase = celda.FuturePhase;
         }
 
-        public Rectangle GetRectangle()
+        public Rectangle GetRectangleTemp()
         {
-            return rectangle;
+            return rectangleTemp;
+        }
+        public Rectangle GetRectanglePhase()
+        {
+            return rectanglePhase;
         }
         public double getTemperature()
         {

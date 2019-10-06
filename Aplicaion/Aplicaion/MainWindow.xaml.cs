@@ -33,8 +33,10 @@ namespace Aplicaion
 
         }
 
+        //Hace void
         private void SetGrid_Click(object sender, RoutedEventArgs e)
         {
+            //Buttons
             SetGrid.IsEnabled = false;
             DiscardGrid.IsEnabled = true;
             ColumnSlider.IsEnabled = false;
@@ -46,33 +48,57 @@ namespace Aplicaion
             button_Adelante.IsEnabled = true;
             button_Stop.IsEnabled = true;
 
+            //Grid
             GraphicGrid = new Rectangle[Convert.ToInt32(RowsSlider.Value)][];
-            cellGrid.setceldas(new Celda[Convert.ToInt32(RowsSlider.Value)][]);
+            cellGrid.setceldas(new Celda[Convert.ToInt32(RowsSlider.Value)+2][]);
 
-            for (int j=0;j<ColumnSlider.Value;j++)
-                grid.ColumnDefinitions.Add(new ColumnDefinition());
-            for (int i = 0; i < RowsSlider.Value; i++)
+            //Relleno de Columnas
+            for (int j = 0; j < ColumnSlider.Value; j++)
             {
-                Rectangle[] GraphicRow = new Rectangle[Convert.ToInt32(ColumnSlider.Value)];
-                Celda[] cellRow = new Celda[Convert.ToInt32(ColumnSlider.Value)];
-                grid.RowDefinitions.Add(new RowDefinition());
-                for (int j = 0; j < ColumnSlider.Value; j++)
+                grid.ColumnDefinitions.Add(new ColumnDefinition());
+                grid2.ColumnDefinitions.Add(new ColumnDefinition());
+            }
+    
+            //Adding las Rows
+            for (int i = 0; i < RowsSlider.Value+2; i++)
+            {
+                Celda[] cellRow = new Celda[Convert.ToInt32(ColumnSlider.Value)+2];
+                if (i > 0 && i <= ColumnSlider.Value)
                 {
-                    Rectangle rectangle = new Rectangle();
-                    SolidColorBrush BlackBrush = new SolidColorBrush();
-                    BlackBrush.Color = Colors.Black;
-                    rectangle.Stroke = BlackBrush;
-                    Grid.SetRow(rectangle, i);
-                    Grid.SetColumn(rectangle, j);
-                    grid.Children.Add(rectangle);
-                    GraphicRow[j] = rectangle;
-                    cellRow[j] = new Celda(rectangle);
+                    grid.RowDefinitions.Add(new RowDefinition());
+                    grid2.RowDefinitions.Add(new RowDefinition());
+
+                    //This for loop prints the grid
+                    for (int j = 0; j < ColumnSlider.Value + 2; j++)
+                    {
+                        if (j > 0 && j <= ColumnSlider.Value)
+                        {
+                            Rectangle rectangle = new Rectangle();
+                            Rectangle rectangle2 = new Rectangle();
+                            SolidColorBrush BlackBrush = new SolidColorBrush();
+                            BlackBrush.Color = Colors.Black;
+                            rectangle.Stroke = BlackBrush;
+                            rectangle2.Stroke = BlackBrush;
+                            //Here we add the rectangles inside the grid
+                            Grid.SetRow(rectangle, i - 1);
+                            Grid.SetColumn(rectangle, j - 1);
+                            grid.Children.Add(rectangle);
+                            Grid.SetRow(rectangle2, i - 1);
+                            Grid.SetColumn(rectangle2, j - 1);
+                            grid2.Children.Add(rectangle2);
+                            cellRow[j] = new Celda(rectangle, rectangle2);
+                        }
+                        else
+                        {
+                            cellRow[j] = new Celda();
+                        }
+                    }
                 }
-                GraphicGrid[i] = GraphicRow;
                 cellGrid.getceldas()[i] = cellRow;
             }
         }
 
+        //Esconde la malla y hace un reset
         private void DiscardGrid_Click(object sender, RoutedEventArgs e)
         {
             SetGrid.IsEnabled = true;
@@ -89,20 +115,25 @@ namespace Aplicaion
             grid.Children.Clear();
             grid.ColumnDefinitions.Clear();
             grid.RowDefinitions.Clear();
+            grid2.Children.Clear();
+            grid2.ColumnDefinitions.Clear();
+            grid2.RowDefinitions.Clear();
         }
 
 
-
+        //Cambia el número al arrastrar 
         private void RowsSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             RowsCount.Content = RowsSlider.Value.ToString();
         }
 
+        //Cambia el número al arrastrar 
         private void ColumnSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             ColumnsCount.Content = ColumnSlider.Value.ToString();
         }
 
+        //Nos avisa si hay alguna selección de Boundary Conditions
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (Combobox_Condition.SelectedIndex != 0)
@@ -110,36 +141,45 @@ namespace Aplicaion
             else
                 Condition = false;
         }
+
+        //Pinta las celdas
         private void timer_Tick(object sender, EventArgs e)
         {
-            cellGrid.getceldas()[0][0].GetRectangle().Fill = new SolidColorBrush(System.Windows.Media.Colors.Blue);
+            cellGrid.getceldas()[1][1].GetRectangleTemp().Fill = new SolidColorBrush(System.Windows.Media.Colors.Blue);
+            cellGrid.getceldas()[3][3].GetRectanglePhase().Fill = new SolidColorBrush(System.Windows.Media.Colors.Red);
         }
 
+        //Empieza el timer
         private void Button_Play_Click(object sender, RoutedEventArgs e)
         {
             timer.Start();
         }
 
+        //Para el timer
         private void Button_Pause_Click(object sender, RoutedEventArgs e)
         {
             timer.Stop();
         }
 
+        //Saca todos los elementos de la pila
         private void Button_Stop_Click(object sender, RoutedEventArgs e)
         {
             timer.Stop();
         }
 
+        //Saca un elemento de la pila
         private void Button_Atrás_Click(object sender, RoutedEventArgs e)
         {
             timer.Stop();
         }
 
+        //Añade un elemento de la pila
         private void Button_Adelante_Click(object sender, RoutedEventArgs e)
         {
             timer_Tick(new object(), new EventArgs());
         }
 
+        //Nos muestra una prueba
         private void Button_Demonstration_Click(object sender, RoutedEventArgs e)
         {
             grid.Children.Clear();
@@ -149,6 +189,12 @@ namespace Aplicaion
             RowsSlider.Value = 9;
             ColumnSlider.Value = 9;
             SetGrid_Click(new object(), new RoutedEventArgs());
+        }
+
+        private void Compare_Results_Click(object sender, RoutedEventArgs e)
+        {
+            Window comparator = new Comparator();
+            comparator.Show();
         }
     }
 }
