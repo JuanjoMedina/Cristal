@@ -8,12 +8,13 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>Aplicaion</RootNamespace>
     <AssemblyName>Aplicaion</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -85,6 +86,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -98,8 +100,16 @@
     <Resource Include="Pictures\pause.jpg" />
     <Resource Include="Pictures\play.jpg" />
     <Resource Include="Pictures\stop.jpg" />
-    <Resource Include="Pictures\un pasopalante.jpg" />
     <Resource Include="Pictures\unpasopatras.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\unpasopalante.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MisClases\MisClases.csproj">
+      <Project>{3bbe415c-a162-4a9f-9c5d-ef0c34a6f11d}</Project>
+      <Name>MisClases</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

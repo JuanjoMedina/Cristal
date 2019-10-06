@@ -6,11 +6,71 @@
         xmlns:local="clr-namespace:Aplicaion"
         mc:Ignorable="d"
         Title="Don Cristal - SIMULACIÓN" Height="600" Width="1200">
+
+    <Window.Resources>
+        <Style x:Key="FocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="Button.Static.Background" Color="#FFDDDDDD"/>
+        <SolidColorBrush x:Key="Button.Static.Border" Color="#FF707070"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FFBEE6FD"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1"/>
+        <SolidColorBrush x:Key="Button.Pressed.Background" Color="#FFC4E5F6"/>
+        <SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF2C628B"/>
+        <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
+        <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
+        <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
+        <Style x:Key="ButtonStyle1" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="BorderBrush"  TargetName="border" Value="{StaticResource Button.MouseOver.Border}"/>
+                                <Setter Property="BorderThickness" Value="3px" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Pressed.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+
+
     <Grid Margin="0,7,2.6,0" RenderTransformOrigin="0.5,0.5" Height="563" VerticalAlignment="Top" >
-        <Grid x:Name="grid" HorizontalAlignment="Left" Height="375" VerticalAlignment="Top" Width="370" RenderTransformOrigin="0.505,0.542" Margin="662,77,0,0" ShowGridLines="True" Grid.RowSpan="7" Grid.ColumnSpan="8" >
-        </Grid>
+        <Grid x:Name="grid" HorizontalAlignment="Left" Height="375" VerticalAlignment="Top" Width="370" RenderTransformOrigin="0.505,0.542" Margin="712,93,0,0"/>
         <Label x:Name="Rows" Content="Rows" HorizontalAlignment="Left" Margin="27,69,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.44,0.508" Height="27" Width="50" FontSize="16"/>
-        <Label x:Name="olumns" Content="Columns" HorizontalAlignment="Left" Margin="27,93,0,0" VerticalAlignment="Top" Height="40" Width="84" FontSize="16"/>
+        <Label x:Name="Columns" Content="Columns" HorizontalAlignment="Left" Margin="27,93,0,0" VerticalAlignment="Top" Height="40" Width="84" FontSize="16"/>
         <Button x:Name="SetGrid" Content="Set Grid" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="389,77,0,0" Click="SetGrid_Click"/>
         <Button x:Name="DiscardGrid" Content="Discard Grid" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="389,101,0,0" Click="DiscardGrid_Click" IsEnabled="False"/>
         <Label x:Name="RowsCount" Content="" HorizontalAlignment="Left" Margin="304,64,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.44,0.508" Height="32" Width="50" FontSize="16"/>
@@ -22,10 +82,31 @@
             <ListBoxItem Content="Mirror Condition"/>
             <ListBoxItem Content="Fixed Condition"/>
         </ComboBox>
-        <Button x:Name="button_Atrás" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="52" Margin="279,306,0,0" Height="46"/>
-        <Button x:Name="button_Play" Content="" HorizontalAlignment="Left" Width="49" Margin="27,306,0,211"/>
-        <Button x:Name="button_Pause" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="54" Margin="112,306,0,0" Height="46"/>
-        <Button x:Name="button_Stop" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="52" Margin="200,306,0,0" Height="46"/>
-        <Button x:Name="button_Adelante" Content="" HorizontalAlignment="Left" Margin="361,306,0,0" VerticalAlignment="Top" Width="57" Height="46"/>
+        <Button x:Name="button_Atrás" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="52" Margin="279,306,0,0" Height="46" Style="{DynamicResource ButtonStyle1}" Click="Button_Atrás_Click" IsEnabled="False">
+            <Button.Background>
+                <ImageBrush ImageSource="Pictures/unpasopatras.jpg"/>
+            </Button.Background>
+        </Button>
+        <Button x:Name="button_Play" Content="" HorizontalAlignment="Left" Width="49" Margin="27,306,0,211" Style="{DynamicResource ButtonStyle1}" Click="Button_Play_Click" IsEnabled="False">
+            <Button.Background>
+                <ImageBrush ImageSource="Pictures/Play.jpg"/>
+            </Button.Background>
+        </Button>
+        <Button x:Name="button_Pause" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="54" Margin="112,306,0,0" Height="46" Style="{DynamicResource ButtonStyle1}" Click="Button_Pause_Click" IsEnabled="False">
+            <Button.Background>
+                <ImageBrush ImageSource="Pictures/pause.jpg"/>
+            </Button.Background>
+        </Button>
+        <Button x:Name="button_Stop" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="52" Margin="200,306,0,0" Height="46" Style="{DynamicResource ButtonStyle1}" Click="Button_Stop_Click" IsEnabled="False">
+            <Button.Background>
+                <ImageBrush ImageSource="Pictures/stop.jpg"/>
+            </Button.Background>
+        </Button>
+        <Button x:Name="button_Adelante" Content="" HorizontalAlignment="Left" Margin="361,306,0,0" VerticalAlignment="Top" Width="57" Height="46" Style="{DynamicResource ButtonStyle1}" Click="Button_Adelante_Click" IsEnabled="False">
+            <Button.Background>
+                <ImageBrush ImageSource="Pictures/unpasopalante.jpg"/>
+            </Button.Background>
+        </Button>
+        <Button x:Name="button_Demonstration" Content="Demonstration" HorizontalAlignment="Left" VerticalAlignment="Top" Width="90" Margin="522,77,0,0" Click="Button_Demonstration_Click"/>
     </Grid>
 </Window>

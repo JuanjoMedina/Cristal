@@ -1,84 +1,74 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Shapes;
 
 namespace MisClases
 {
     [Serializable]
     public class Celda
     {
+        private double Temperature;
+        private double FutureTemperature;
+        private double Phase;
+        private double FuturePhase;
+        private Rectangle rectangle;
 
-        private string nombre;
-        private bool[][] reglas;
-        private bool viva;
-        private bool vivaFuturo;
-        
         public Celda()
         {
-            this.nombre = null;
-            this.reglas = null;
-            this.viva = false;
-            this.vivaFuturo = false;
+
         }
-        public Celda(string nombre,bool[][] rules, bool alive)
+        public Celda(Rectangle rectangle)
         {
-            this.nombre = nombre;
-            this.reglas = rules;
-            this.viva = alive;
-            this.vivaFuturo = false;
-        }
-        public Celda(Celda bacteria)
-        {
-            this.nombre = bacteria.nombre;
-            this.reglas = bacteria.reglas;
-            this.viva = bacteria.vivaFuturo;
-            this.vivaFuturo = false;
+            this.rectangle = rectangle;
         }
 
-        public string getName()
+        public Celda(Celda celda)
         {
-            return this.nombre;
+            this.Temperature = celda.Temperature;
+            this.FutureTemperature = celda.FutureTemperature;
+            this.Phase = celda.Phase;
+            this.FuturePhase = celda.FuturePhase;
         }
-        public bool getViva()
-        {
-            return this.viva;
-        }
-        public bool[][] getReglas()
-        {
-            return this.reglas;
-        }
-        public void setInitialViva()
-        {
-            if (this.viva)
-                this.viva = false;
-            else
-                this.viva = true;
-        }
-        public int siTrueTrue()
-        {
-            if (this.viva)
-            {
-                return 1;
-            }
-            else
-            {
-                return 0;
-            }
-        }
-        public void change(int vecinos)
-        {
-            int i;
-            if (this.viva)
-                i = 0;
-            else
-                i = 1;
-            if (this.reglas[vecinos][i])
-                this.vivaFuturo = true;
-            else
-                this.vivaFuturo = false;
 
+        public Rectangle GetRectangle()
+        {
+            return rectangle;
+        }
+        public double getTemperature()
+        {
+            return Temperature;
+        }
+
+        public double getFutureTemperature()
+        {
+            return FutureTemperature;
+        }
+        public double getPhase()
+        {
+            return Phase;
+        }
+
+        public double getFuturePhase()
+        {
+            return FuturePhase;
+        }
+
+        public void setTemperature(double value)
+        {
+            this.Temperature=value;
+        }
+
+        public void setFutureTemperature(double value)
+        {
+            this.FutureTemperature = value;
+        }
+        public void setPhase(double value)
+        {
+            this.Phase = value;
+        }
+
+        public void setFuturePhase(double value)
+        {
+            this.FuturePhase = value;
         }
     }
 }

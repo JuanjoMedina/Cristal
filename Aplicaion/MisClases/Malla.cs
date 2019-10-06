@@ -11,97 +11,97 @@ namespace MisClases
     public class Malla
     {
         private Stack<Celda[][]> memory=new Stack<Celda[][]>();
-        private Celda[][] bacterias;
-        public int[][] contar()
+        private Celda[][] celdas;
+        //public int[][] contar()
+        //{
+        //    int[][] vec = new int[celdas.Length][];
+        //    for (int i = 0; i < celdas.Length; i++)
+        //    {
+        //        int[] subvec = new int[celdas[i].Length];
+
+        //        for (int j = 0; j < celdas[i].Length; j++)
+        //        {
+        //            if (i == 0)
+        //            {
+        //                if (j == 0)
+        //                {
+        //                    subvec[j] = celdas[i][j + 1].siTrueTrue() + celdas[i + 1][j + 1].siTrueTrue() + celdas[i + 1][j].siTrueTrue();
+        //                }
+        //                else if (j == celdas[i].Length - 1)
+        //                {
+        //                    subvec[j] = celdas[i][j - 1].siTrueTrue() + celdas[i + 1][j - 1].siTrueTrue() + celdas[i + 1][j].siTrueTrue();
+        //                }
+        //                else
+        //                {
+        //                    subvec[j] = celdas[i][j + 1].siTrueTrue() + celdas[i][j - 1].siTrueTrue() + celdas[i + 1][j + 1].siTrueTrue() + celdas[i + 1][j].siTrueTrue() + celdas[i + 1][j - 1].siTrueTrue();
+        //                }
+
+        //            }
+        //            else if (i == celdas.Length - 1)
+        //            {
+        //                if (j == 0)
+        //                {
+        //                    subvec[j] = celdas[i][j + 1].siTrueTrue() + celdas[i - 1][j + 1].siTrueTrue() + celdas[i - 1][j].siTrueTrue();
+        //                }
+        //                else if (j == celdas[i].Length - 1)
+        //                {
+        //                    subvec[j] = celdas[i][j - 1].siTrueTrue() + celdas[i - 1][j - 1].siTrueTrue() + celdas[i - 1][j].siTrueTrue();
+        //                }
+        //                else
+        //                {
+        //                    subvec[j] = celdas[i][j + 1].siTrueTrue() + celdas[i][j - 1].siTrueTrue() + celdas[i - 1][j + 1].siTrueTrue() + celdas[i - 1][j].siTrueTrue() + celdas[i - 1][j - 1].siTrueTrue();
+        //                }
+        //            }
+        //            else
+        //            {
+        //                if (j == 0)
+        //                {
+        //                    subvec[j] = celdas[i][j + 1].siTrueTrue() + celdas[i + 1][j].siTrueTrue() + celdas[i + 1][j + 1].siTrueTrue() + celdas[i - 1][j + 1].siTrueTrue() + celdas[i - 1][j].siTrueTrue();
+        //                }
+        //                else if (j == celdas[i].Length - 1)
+        //                {
+        //                    subvec[j] = celdas[i][j - 1].siTrueTrue() + celdas[i + 1][j].siTrueTrue() + celdas[i + 1][j - 1].siTrueTrue() + celdas[i - 1][j - 1].siTrueTrue() + celdas[i - 1][j].siTrueTrue();
+        //                }
+        //                else
+        //                {
+        //                    subvec[j] = celdas[i][j + 1].siTrueTrue() + celdas[i][j - 1].siTrueTrue() + celdas[i + 1][j].siTrueTrue() + celdas[i + 1][j + 1].siTrueTrue() + celdas[i + 1][j - 1].siTrueTrue() + celdas[i - 1][j + 1].siTrueTrue() + celdas[i - 1][j - 1].siTrueTrue() + celdas[i - 1][j].siTrueTrue();
+        //                }
+
+        //            }
+        //        }
+
+        //        vec[i] = subvec;
+        //    }
+        //    return vec;
+
+        //}
+        //public void SaveAndSet(int[][] vecinos)
+        //{
+        //    memory.Push(celdas);
+        //    Celda[][] celdasgrid = new Celda[this.celdas.Length][];
+        //    for (int i = 0; i < this.celdas.Length; i++)
+        //    {
+        //        Celda[] fila = new Celda[this.celdas[i].Length];
+        //        for (int j = 0; j < this.celdas[i].Length; j++)
+        //        {
+        //            this.celdas[i][j].change(vecinos[i][j]);
+        //            fila[j] = new Celda(this.celdas[i][j]);
+        //        }
+        //        celdasgrid[i] = fila;
+        //    }
+        //    this.celdas = celdasgrid;
+        //}
+        public void setceldas(Celda[][] celdasgrid)
         {
-            int[][] vec = new int[bacterias.Length][];
-            for (int i = 0; i < bacterias.Length; i++)
-            {
-                int[] subvec = new int[bacterias[i].Length];
-
-                for (int j = 0; j < bacterias[i].Length; j++)
-                {
-                    if (i == 0)
-                    {
-                        if (j == 0)
-                        {
-                            subvec[j] = bacterias[i][j + 1].siTrueTrue() + bacterias[i + 1][j + 1].siTrueTrue() + bacterias[i + 1][j].siTrueTrue();
-                        }
-                        else if (j == bacterias[i].Length - 1)
-                        {
-                            subvec[j] = bacterias[i][j - 1].siTrueTrue() + bacterias[i + 1][j - 1].siTrueTrue() + bacterias[i + 1][j].siTrueTrue();
-                        }
-                        else
-                        {
-                            subvec[j] = bacterias[i][j + 1].siTrueTrue() + bacterias[i][j - 1].siTrueTrue() + bacterias[i + 1][j + 1].siTrueTrue() + bacterias[i + 1][j].siTrueTrue() + bacterias[i + 1][j - 1].siTrueTrue();
-                        }
-
-                    }
-                    else if (i == bacterias.Length - 1)
-                    {
-                        if (j == 0)
-                        {
-                            subvec[j] = bacterias[i][j + 1].siTrueTrue() + bacterias[i - 1][j + 1].siTrueTrue() + bacterias[i - 1][j].siTrueTrue();
-                        }
-                        else if (j == bacterias[i].Length - 1)
-                        {
-                            subvec[j] = bacterias[i][j - 1].siTrueTrue() + bacterias[i - 1][j - 1].siTrueTrue() + bacterias[i - 1][j].siTrueTrue();
-                        }
-                        else
-                        {
-                            subvec[j] = bacterias[i][j + 1].siTrueTrue() + bacterias[i][j - 1].siTrueTrue() + bacterias[i - 1][j + 1].siTrueTrue() + bacterias[i - 1][j].siTrueTrue() + bacterias[i - 1][j - 1].siTrueTrue();
-                        }
-                    }
-                    else
-                    {
-                        if (j == 0)
-                        {
-                            subvec[j] = bacterias[i][j + 1].siTrueTrue() + bacterias[i + 1][j].siTrueTrue() + bacterias[i + 1][j + 1].siTrueTrue() + bacterias[i - 1][j + 1].siTrueTrue() + bacterias[i - 1][j].siTrueTrue();
-                        }
-                        else if (j == bacterias[i].Length - 1)
-                        {
-                            subvec[j] = bacterias[i][j - 1].siTrueTrue() + bacterias[i + 1][j].siTrueTrue() + bacterias[i + 1][j - 1].siTrueTrue() + bacterias[i - 1][j - 1].siTrueTrue() + bacterias[i - 1][j].siTrueTrue();
-                        }
-                        else
-                        {
-                            subvec[j] = bacterias[i][j + 1].siTrueTrue() + bacterias[i][j - 1].siTrueTrue() + bacterias[i + 1][j].siTrueTrue() + bacterias[i + 1][j + 1].siTrueTrue() + bacterias[i + 1][j - 1].siTrueTrue() + bacterias[i - 1][j + 1].siTrueTrue() + bacterias[i - 1][j - 1].siTrueTrue() + bacterias[i - 1][j].siTrueTrue();
-                        }
-
-                    }
-                }
-
-                vec[i] = subvec;
-            }
-            return vec;
-
-        }
-        public void SaveAndSet(int[][] vecinos)
-        {
-            memory.Push(bacterias);
-            Celda[][] bacteriasgrid = new Celda[this.bacterias.Length][];
-            for (int i = 0; i < this.bacterias.Length; i++)
-            {
-                Celda[] fila = new Celda[this.bacterias[i].Length];
-                for (int j = 0; j < this.bacterias[i].Length; j++)
-                {
-                    this.bacterias[i][j].change(vecinos[i][j]);
-                    fila[j] = new Celda(this.bacterias[i][j]);
-                }
-                bacteriasgrid[i] = fila;
-            }
-            this.bacterias = bacteriasgrid;
-        }
-        public void setBacterias(Celda[][] bacteriasgrid)
-        {
-            this.bacterias = bacteriasgrid;
+            this.celdas = celdasgrid;
         }
         public Stack<Celda[][]> getMemory()
         {
             return memory;
         }
-        public Celda[][] getBacterias()
+        public Celda[][] getceldas()
         {
-            return this.bacterias;
+            return this.celdas;
         }
     }
 }
