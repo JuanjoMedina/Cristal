@@ -79,6 +79,8 @@ namespace Aplicaion
                             BlackBrush.Color = Colors.Black;
                             rectangle.Stroke = BlackBrush;
                             rectangle2.Stroke = BlackBrush;
+                            rectangle.Fill = new SolidColorBrush(Colors.White);
+                            rectangle2.Fill = new SolidColorBrush(Colors.White);
                             //Here we add the rectangles inside the grid
                             Grid.SetRow(rectangle, i - 1);
                             Grid.SetColumn(rectangle, j - 1);
@@ -186,15 +188,50 @@ namespace Aplicaion
             grid.ColumnDefinitions.Clear();
             grid.RowDefinitions.Clear();
 
+            grid2.Children.Clear();
+            grid2.ColumnDefinitions.Clear();
+            grid2.RowDefinitions.Clear();
+
             RowsSlider.Value = 9;
             ColumnSlider.Value = 9;
             SetGrid_Click(new object(), new RoutedEventArgs());
+            cellGrid.getceldas()[5][5].GetRectanglePhase().Fill = new SolidColorBrush(Colors.Blue);
+            cellGrid.getceldas()[5][5].GetRectangleTemp().Fill = new SolidColorBrush(Colors.Red);
+            cellGrid.getceldas()[5][5].setPhase(0);
+            cellGrid.getceldas()[5][5].setTemperature(0);
         }
 
         private void Compare_Results_Click(object sender, RoutedEventArgs e)
         {
             Window comparator = new Comparator();
             comparator.Show();
+        }
+
+        private void Grid2_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                Point Location = e.GetPosition(grid2);
+                int row = Convert.ToInt32(Math.Truncate(Location.Y / (grid2.Height / Convert.ToDouble(grid2.ColumnDefinitions.Count))));
+                int column = Convert.ToInt32(Math.Truncate(Location.X / (grid2.Width / Convert.ToDouble(grid2.RowDefinitions.Count))));
+                cellGrid.getceldas()[row+1][column+1].GetRectanglePhase().Fill = new SolidColorBrush(Colors.Orange);
+                MessageBox.Show(cellGrid.getceldas()[row + 1][column + 1].getPhase().ToString());
+            }
+            catch { }
+
+        }
+
+        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                Point Location = e.GetPosition(grid);
+                int row = Convert.ToInt32(Math.Truncate(Location.Y / (grid.Height / Convert.ToDouble(grid.ColumnDefinitions.Count))));
+                int column = Convert.ToInt32(Math.Truncate(Location.X / (grid.Width / Convert.ToDouble(grid.RowDefinitions.Count))));
+                cellGrid.getceldas()[row+1][column+1].GetRectangleTemp().Fill = new SolidColorBrush(Colors.Orange);
+                MessageBox.Show(cellGrid.getceldas()[row + 1][column + 1].getTemperature().ToString());
+            }
+            catch { }
         }
     }
 }

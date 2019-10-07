@@ -15,10 +15,13 @@ namespace MisClases
 
         public Celda()
         {
-
+            this.Temperature = -1;
+            this.Phase = 1;
         }
         public Celda(Rectangle rectangle, Rectangle rectangle2)
         {
+            this.Temperature = -1;
+            this.Phase = 1;
             this.rectangleTemp = rectangle;
             this.rectanglePhase = rectangle2;
         }

@@ -68,7 +68,9 @@
 
 
     <Grid Margin="0,7,2.6,0" RenderTransformOrigin="0.5,0.5" Height="563" VerticalAlignment="Top" >
-        <Grid x:Name="grid" HorizontalAlignment="Left" Height="350" VerticalAlignment="Top" Width="350" RenderTransformOrigin="0.505,0.542" Margin="365,53,0,0"/>
+        <Grid x:Name="grid" HorizontalAlignment="Left" Height="350" VerticalAlignment="Top" Width="350" RenderTransformOrigin="0.505,0.542" Margin="365,53,0,0" MouseDown="Grid_MouseDown">
+            <Rectangle HorizontalAlignment="Left" Height="350" VerticalAlignment="Top" Width="350"/>
+        </Grid>
         <Label x:Name="Rows" Content="Rows" HorizontalAlignment="Left" Margin="27,107,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.44,0.508" Height="27" Width="50" FontSize="16"/>
         <Label x:Name="Columns" Content="Columns" HorizontalAlignment="Left" Margin="27,131,0,0" VerticalAlignment="Top" Height="40" Width="84" FontSize="16"/>
         <Button x:Name="SetGrid" Content="Set Grid" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="52,171,0,0" Click="SetGrid_Click"/>
@@ -113,7 +115,9 @@
         <Label x:Name="label_Copy" Content="Average Temperature vs Time:" HorizontalAlignment="Left" Margin="27,264,0,0" VerticalAlignment="Top" Width="194"/>
         <Label x:Name="label_Copy2" Content="Average Phase vs Time:" HorizontalAlignment="Left" Margin="27,382,0,0" VerticalAlignment="Top" Width="150"/>
         <Label x:Name="label_Copy3" Content="Temperature vs Time" HorizontalAlignment="Left" Margin="476,15,0,0" VerticalAlignment="Top" Width="126"/>
-        <Grid x:Name="grid2" HorizontalAlignment="Left" Height="350" VerticalAlignment="Top" Width="350" RenderTransformOrigin="0.505,0.542" Margin="795,53,0,0"/>
+        <Grid x:Name="grid2" HorizontalAlignment="Left" Height="350" VerticalAlignment="Top" Width="350" RenderTransformOrigin="0.505,0.542" Margin="795,53,0,0" MouseDown="Grid2_MouseDown">
+            <Rectangle HorizontalAlignment="Left" Height="350" VerticalAlignment="Top" Width="350"/>
+        </Grid>
         <Label x:Name="label_Copy4" Content="Phase vs Time" HorizontalAlignment="Left" Margin="912,19,0,0" VerticalAlignment="Top" Width="126"/>
         <Button x:Name="Compare_Results" Content="Check Results" HorizontalAlignment="Left" VerticalAlignment="Top" Width="119" Margin="691,495,0,0" Click="Compare_Results_Click"/>
         <Label x:Name="label_Copy5" Content="Boundary Conditon:" HorizontalAlignment="Left" Margin="29,221,0,0" VerticalAlignment="Top" Width="150"/>
