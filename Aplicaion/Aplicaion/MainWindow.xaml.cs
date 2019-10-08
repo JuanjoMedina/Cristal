@@ -79,6 +79,8 @@ namespace Aplicaion
                             BlackBrush.Color = Colors.Black;
                             rectangle.Stroke = BlackBrush;
                             rectangle2.Stroke = BlackBrush;
+                            rectangle.StrokeThickness = 1;
+                            rectangle2.StrokeThickness = 1;
                             rectangle.Fill = new SolidColorBrush(Colors.White);
                             rectangle2.Fill = new SolidColorBrush(Colors.White);
                             //Here we add the rectangles inside the grid
@@ -114,12 +116,17 @@ namespace Aplicaion
             button_Adelante.IsEnabled = false;
             button_Stop.IsEnabled = false;
 
+            UIElement rectangle = grid.Children[0];
+            Rectangle rectangle2 = (Rectangle)grid2.Children[0];
+
             grid.Children.Clear();
             grid.ColumnDefinitions.Clear();
             grid.RowDefinitions.Clear();
             grid2.Children.Clear();
             grid2.ColumnDefinitions.Clear();
             grid2.RowDefinitions.Clear();
+            grid.Children.Add(rectangle);
+            grid2.Children.Add(rectangle2);
         }
 
 
