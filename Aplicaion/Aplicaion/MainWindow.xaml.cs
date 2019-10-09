@@ -116,7 +116,7 @@ namespace Aplicaion
             button_Adelante.IsEnabled = false;
             button_Stop.IsEnabled = false;
 
-            UIElement rectangle = grid.Children[0];
+            Rectangle rectangle = (Rectangle)grid.Children[0];
             Rectangle rectangle2 = (Rectangle)grid2.Children[0];
 
             grid.Children.Clear();
@@ -151,11 +151,17 @@ namespace Aplicaion
                 Condition = false;
         }
 
-        //Pinta las celdas
+        //Pinta las celdas Color.FromArgb(255, 255, 0, 0)
         private void timer_Tick(object sender, EventArgs e)
         {
-            cellGrid.getceldas()[1][1].GetRectangleTemp().Fill = new SolidColorBrush(System.Windows.Media.Colors.Blue);
-            cellGrid.getceldas()[3][3].GetRectanglePhase().Fill = new SolidColorBrush(System.Windows.Media.Colors.Red);
+            for (int i = 1; i < cellGrid.getceldas().Length - 1; i++)
+            {
+                for (int j = 1; j < cellGrid.getceldas()[i].Length - 1; j++)
+                {
+                    cellGrid.getceldas()[i][j].GetRectangleTemp().Fill=ExtensionClass.GetTempColor(cellGrid.getceldas()[i][j].getTemperature());
+                    cellGrid.getceldas()[i][j].GetRectanglePhase().Fill = ExtensionClass.GetPhaseColor(cellGrid.getceldas()[i][j].getPhase()); ;
+                }
+            }
         }
 
         //Empieza el timer
@@ -191,13 +197,17 @@ namespace Aplicaion
         //Nos muestra una prueba
         private void Button_Demonstration_Click(object sender, RoutedEventArgs e)
         {
+            Rectangle rectangle = (Rectangle)grid.Children[0];
+            Rectangle rectangle2 = (Rectangle)grid2.Children[0];
+
             grid.Children.Clear();
             grid.ColumnDefinitions.Clear();
             grid.RowDefinitions.Clear();
-
             grid2.Children.Clear();
             grid2.ColumnDefinitions.Clear();
             grid2.RowDefinitions.Clear();
+            grid.Children.Add(rectangle);
+            grid2.Children.Add(rectangle2);
 
             RowsSlider.Value = 9;
             ColumnSlider.Value = 9;
