@@ -17,6 +17,8 @@ namespace MisClases
         {
             this.Temperature = -1;
             this.Phase = 1;
+            this.FuturePhase = 1;
+            this.FutureTemperature = -1;
         }
         public Celda(Rectangle rectangle, Rectangle rectangle2)
         {
@@ -32,7 +34,9 @@ namespace MisClases
             this.FutureTemperature = celda.FutureTemperature;
             this.Phase = celda.Phase;
             this.FuturePhase = celda.FuturePhase;
-        }
+            this.rectangleTemp=celda.rectangleTemp;
+            this.rectanglePhase = celda.rectanglePhase;
+    }
 
         public Rectangle GetRectangleTemp()
         {
@@ -78,6 +82,11 @@ namespace MisClases
         public void setFuturePhase(double value)
         {
             this.FuturePhase = value;
+        }
+        public void change()
+        {
+            this.Temperature = this.FutureTemperature;
+            this.Phase = this.FuturePhase;
         }
     }
 }

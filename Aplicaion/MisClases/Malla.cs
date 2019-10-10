@@ -67,24 +67,24 @@ namespace MisClases
             }
         }
 
-        //public void SaveAndSet(int[][] vecinos)
-        //{
-        //    memory.Push(celdas);
-        //    Celda[][] celdasgrid = new Celda[this.celdas.Length][];
-        //    for (int i = 0; i < this.celdas.Length; i++)
-        //    {
-        //        Celda[] fila = new Celda[this.celdas[i].Length];
-        //        for (int j = 0; j < this.celdas[i].Length; j++)
-        //        {
-        //            this.celdas[i][j].change(vecinos[i][j]);
-        //            fila[j] = new Celda(this.celdas[i][j]);
-        //        }
-        //        celdasgrid[i] = fila;
-        //    }
-        //    this.celdas = celdasgrid;
-        //}
+        public void SaveAndSet()
+        {
+            memory.Push(celdas);
+            Celda[][] celdasgrid = new Celda[this.celdas.Length][];
+            for (int i = 0; i < this.celdas.Length; i++)
+            {
+                Celda[] fila = new Celda[this.celdas[i].Length];
+                for (int j = 0; j < this.celdas[i].Length; j++)
+                {
+                    this.celdas[i][j].change();
+                    fila[j] = new Celda(this.celdas[i][j]);
+                }
+                celdasgrid[i] = fila;
+            }
+            this.celdas = celdasgrid;
+        }
 
-        
+
         public void setceldas(Celda[][] celdasgrid)
         {
             this.celdas = celdasgrid;

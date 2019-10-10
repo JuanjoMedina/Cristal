@@ -16,7 +16,30 @@ namespace MisClases
         double DeltaX;
         double DeltaY;
 
-        public Variables(double Epsilon, double m, double Beta, double DeltaT, double DeltaX, double DeltaY)
+        public Variables(bool Parameters1)
+        {
+            if (Parameters1)
+            {
+                this.Epsilon = 0.005;
+                this.m = 20;
+                this.Beta = 400;
+                this.DeltaT = 5*Math.Pow(10,-6);
+                this.DeltaX = 0.005;
+                this.DeltaY = 0.005;
+                this.Delta=0.5;
+            }
+            else
+            {
+                this.Epsilon = 0.005;
+                this.m = 30;
+                this.Beta = 300;
+                this.DeltaT = 5 * Math.Pow(10, -6);
+                this.DeltaX = 0.005;
+                this.DeltaY = 0.005;
+                this.Delta = 0.7;
+            }
+        }
+        public Variables(double Epsilon, double m, double Beta, double DeltaT, double DeltaX, double DeltaY,double Delta)
         {
             this.Epsilon = Epsilon;
             this.m = m;
@@ -24,6 +47,7 @@ namespace MisClases
             this.DeltaT = DeltaT;
             this.DeltaX = DeltaX;
             this.DeltaY = DeltaY;
+            this.Delta = Delta;
         }
 
         public double GetEpsilon()

@@ -22,6 +22,7 @@ namespace Aplicaion
         Rectangle[][] GraphicGrid;
         System.Windows.Threading.DispatcherTimer timer = new System.Windows.Threading.DispatcherTimer();
         bool Condition = false;
+        bool Mirror = false;
         Malla cellGrid = new Malla();
         
         public MainWindow()
@@ -98,6 +99,14 @@ namespace Aplicaion
                         }
                     }
                 }
+                else
+                {
+                    for (int j = 0; j < ColumnSlider.Value + 2; j++)
+                    {
+                        cellRow[j] = new Celda();
+                    }
+
+                }
                 cellGrid.getceldas()[i] = cellRow;
             }
         }
@@ -145,21 +154,29 @@ namespace Aplicaion
         //Nos avisa si hay alguna selección de Boundary Conditions
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (Combobox_Condition.SelectedIndex != 0)
-                Condition = true;
-            else
+            if (Combobox_Condition.SelectedIndex == 0)
                 Condition = false;
+            else
+            {
+                Condition = true;
+                if (Combobox_Condition.SelectedIndex == 1)
+                    Mirror = true;
+                else
+                    Mirror = false;
+            }
         }
 
         //Pinta las celdas Color.FromArgb(255, 255, 0, 0)
         private void timer_Tick(object sender, EventArgs e)
         {
+            cellGrid.Calcular(Mirror, new Variables(true));
+            cellGrid.SaveAndSet();
             for (int i = 1; i < cellGrid.getceldas().Length - 1; i++)
             {
                 for (int j = 1; j < cellGrid.getceldas()[i].Length - 1; j++)
                 {
-                    cellGrid.getceldas()[i][j].GetRectangleTemp().Fill=ExtensionClass.GetTempColor(cellGrid.getceldas()[i][j].getTemperature());
-                    cellGrid.getceldas()[i][j].GetRectanglePhase().Fill = ExtensionClass.GetPhaseColor(cellGrid.getceldas()[i][j].getPhase()); ;
+                    //cellGrid.getceldas()[i][j].GetRectangleTemp().Fill=ExtensionClass.GetTempColor(cellGrid.getceldas()[i][j].getTemperature());
+                    //cellGrid.getceldas()[i][j].GetRectanglePhase().Fill = ExtensionClass.GetPhaseColor(cellGrid.getceldas()[i][j].getPhase()); ;
                 }
             }
         }
@@ -231,7 +248,7 @@ namespace Aplicaion
                 Point Location = e.GetPosition(grid2);
                 int row = Convert.ToInt32(Math.Truncate(Location.Y / (grid2.Height / Convert.ToDouble(grid2.ColumnDefinitions.Count))));
                 int column = Convert.ToInt32(Math.Truncate(Location.X / (grid2.Width / Convert.ToDouble(grid2.RowDefinitions.Count))));
-                cellGrid.getceldas()[row+1][column+1].GetRectanglePhase().Fill = new SolidColorBrush(Colors.Orange);
+                //cellGrid.getceldas()[row+1][column+1].GetRectanglePhase().Fill = new SolidColorBrush(Colors.Orange);
                 MessageBox.Show(cellGrid.getceldas()[row + 1][column + 1].getPhase().ToString());
             }
             catch { }
@@ -245,7 +262,7 @@ namespace Aplicaion
                 Point Location = e.GetPosition(grid);
                 int row = Convert.ToInt32(Math.Truncate(Location.Y / (grid.Height / Convert.ToDouble(grid.ColumnDefinitions.Count))));
                 int column = Convert.ToInt32(Math.Truncate(Location.X / (grid.Width / Convert.ToDouble(grid.RowDefinitions.Count))));
-                cellGrid.getceldas()[row+1][column+1].GetRectangleTemp().Fill = new SolidColorBrush(Colors.Orange);
+                //cellGrid.getceldas()[row+1][column+1].GetRectangleTemp().Fill = new SolidColorBrush(Colors.Orange);
                 MessageBox.Show(cellGrid.getceldas()[row + 1][column + 1].getTemperature().ToString());
             }
             catch { }
