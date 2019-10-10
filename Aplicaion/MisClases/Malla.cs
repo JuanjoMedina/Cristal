@@ -40,8 +40,8 @@ namespace MisClases
                         }
                         this.celdas[i][0].setFutureTemperature(this.celdas[1][1].getFutureTemperature());
                         this.celdas[i][0].setFuturePhase(this.celdas[1][1].getFuturePhase());
-                        this.celdas[i][celdas[i].Length].setFutureTemperature(this.celdas[1][celdas[i].Length - 1].getFutureTemperature());
-                        this.celdas[i][celdas[i].Length].setFuturePhase(this.celdas[1][celdas[i].Length - 1].getFuturePhase());
+                        this.celdas[i][celdas[i].Length-1].setFutureTemperature(this.celdas[1][celdas[i].Length - 1].getFutureTemperature());
+                        this.celdas[i][celdas[i].Length-1].setFuturePhase(this.celdas[1][celdas[i].Length - 1].getFuturePhase());
                     }
                     else if (i == celdas.Length)
                     {
@@ -52,15 +52,15 @@ namespace MisClases
                         }
                         this.celdas[i][0].setFutureTemperature(this.celdas[i-1][1].getFutureTemperature());
                         this.celdas[i][0].setFuturePhase(this.celdas[i-1][1].getFuturePhase());
-                        this.celdas[i][celdas[i].Length].setFutureTemperature(this.celdas[i-1][celdas[i].Length - 1].getFutureTemperature());
-                        this.celdas[i][celdas[i].Length].setFuturePhase(this.celdas[i-1][celdas[i].Length - 1].getFuturePhase());
+                        this.celdas[i][celdas[i].Length-1].setFutureTemperature(this.celdas[i-1][celdas[i].Length - 1].getFutureTemperature());
+                        this.celdas[i][celdas[i].Length-1].setFuturePhase(this.celdas[i-1][celdas[i].Length - 1].getFuturePhase());
                     }
                     else
                     {
                         this.celdas[i][0].setFutureTemperature(this.celdas[i][1].getFutureTemperature());
                         this.celdas[i][0].setFuturePhase(this.celdas[i][1].getFuturePhase());
-                        this.celdas[i][celdas[i].Length].setFutureTemperature(this.celdas[i][celdas[i].Length-1].getFutureTemperature());
-                        this.celdas[i][celdas[i].Length].setFuturePhase(this.celdas[i][celdas[i].Length-1].getFuturePhase());
+                        this.celdas[i][celdas[i].Length-1].setFutureTemperature(this.celdas[i][celdas[i].Length-1].getFutureTemperature());
+                        this.celdas[i][celdas[i].Length-1].setFuturePhase(this.celdas[i][celdas[i].Length-1].getFuturePhase());
                     }
                 }
 

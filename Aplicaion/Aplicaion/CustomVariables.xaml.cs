@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace Aplicaion
 {
     /// <summary>
-    /// Lógica de interacción para Comparator.xaml
+    /// Lógica de interacción para CustomVariables.xaml
     /// </summary>
-    public partial class Comparator : Window
+    public partial class CustomVariables : Window
     {
-        public Comparator()
+        public CustomVariables()
         {
             InitializeComponent();
         }
