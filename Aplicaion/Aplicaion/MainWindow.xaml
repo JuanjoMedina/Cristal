@@ -157,14 +157,15 @@
         </Grid>
         <Label x:Name="label_Copy4" Content="Phase vs Time" HorizontalAlignment="Left" Margin="912,19,0,0" VerticalAlignment="Top" Width="126"/>
         <Label x:Name="label_Copy5" Content="Boundary Conditon:" HorizontalAlignment="Left" Margin="29,195,0,0" VerticalAlignment="Top" Width="150"/>
-        <Label x:Name="HelpLabel" Content="Set The Grid First" HorizontalAlignment="Left" Margin="631,505,0,0" VerticalAlignment="Top" FontSize="22" FontWeight="Bold"/>
+        <Label x:Name="HelpLabel" Content="Build the environment first!" HorizontalAlignment="Left" Margin="538,505,0,0" VerticalAlignment="Top" FontSize="22" FontWeight="Bold"/>
         <Label x:Name="timer_label" Content="0" HorizontalAlignment="Left" Margin="841,505,0,0" VerticalAlignment="Top" FontSize="22" FontWeight="Bold"/>
-        <Button x:Name="Confirm_Button" Content="Confirm Configuration" HorizontalAlignment="Left" VerticalAlignment="Top" Width="145" Margin="85,267,0,0" Style="{DynamicResource ButtonStyle2}" Background="#FFDDFFCA" Height="24" BorderThickness="2" FontWeight="Bold" Click="Confirm_Button_Click"/>
+        <Button x:Name="Confirm_Button" Content="Confirm Configuration" HorizontalAlignment="Left" VerticalAlignment="Top" Width="145" Margin="85,267,0,0" Style="{DynamicResource ButtonStyle2}" Background="#FFA0FF6E" Height="24" BorderThickness="2" FontWeight="Bold" Click="Confirm_Button_Click"/>
         <Button x:Name="Custom_Variables" Content="Custom Variables" HorizontalAlignment="Left" VerticalAlignment="Top" Width="109" Margin="29,232,0,0" Style="{DynamicResource ButtonStyle2}" Click="Custom_Variables_Click"/>
-        <ComboBox x:Name="Combobox_Variables" HorizontalAlignment="Left" Margin="152,231,0,0" VerticalAlignment="Top" Width="120" SelectedIndex="0">
+        <ComboBox x:Name="Combobox_Variables" HorizontalAlignment="Left" Margin="182,230,0,0" VerticalAlignment="Top" Width="120" SelectedIndex="0">
             <ListBoxItem Content="Select Variables"/>
             <ListBoxItem Content="Parametres 1"/>
             <ListBoxItem Content="Parametres 2"/>
         </ComboBox>
+        <Label Content="or" HorizontalAlignment="Left" Margin="150,227,0,0" VerticalAlignment="Top" Height="30"/>
     </Grid>
 </Window>

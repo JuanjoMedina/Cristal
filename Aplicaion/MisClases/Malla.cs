@@ -69,15 +69,15 @@ namespace MisClases
 
         public void SaveAndSet()
         {
-            memory.Push(celdas);
+            memory.Push(this.celdas);
             Celda[][] celdasgrid = new Celda[this.celdas.Length][];
             for (int i = 0; i < this.celdas.Length; i++)
             {
                 Celda[] fila = new Celda[this.celdas[i].Length];
                 for (int j = 0; j < this.celdas[i].Length; j++)
                 {
-                    this.celdas[i][j].change();
                     fila[j] = new Celda(this.celdas[i][j]);
+                    fila[j].change();
                 }
                 celdasgrid[i] = fila;
             }
@@ -96,6 +96,30 @@ namespace MisClases
         public Celda[][] getceldas()
         {
             return this.celdas;
+        }
+        public void Represent()
+        {
+            for (int i = 1; i < this.getceldas().Length - 1; i++)
+            {
+                for (int j = 1; j < this.getceldas()[i].Length - 1; j++)
+                {
+                    this.getceldas()[i][j].GetRectangleTemp().Fill = ExtensionClass.GetTempColor(this.getceldas()[i][j].getTemperature());
+                    this.getceldas()[i][j].GetRectanglePhase().Fill = ExtensionClass.GetPhaseColor(this.getceldas()[i][j].getPhase()); ;
+                }
+            }
+        }
+        public bool HayGrano()
+        {
+            bool hayGrano = false;
+            for (int i = 1; i < this.getceldas().Length - 1 && !hayGrano ; i++)
+            {
+                for (int j = 1; j < this.getceldas()[i].Length - 1 && !hayGrano; j++)
+                {
+                    if (this.getceldas()[i][j].getPhase() == 0)
+                        hayGrano = true;
+                }
+            }
+            return hayGrano;
         }
     }
 }

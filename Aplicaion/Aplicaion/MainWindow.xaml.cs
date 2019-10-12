@@ -24,7 +24,6 @@ namespace Aplicaion
         bool Condition = false;
         bool Mirror = true;
         bool Started = false;
-        bool GranitoInicial = false;
         int incrTiempo = 100;
         bool gridSet = false;
         List<double> Tiempo = new List<double>() { 0 };
@@ -170,14 +169,7 @@ namespace Aplicaion
         {
             cellGrid.Calcular(Mirror, new Variables(true));
             cellGrid.SaveAndSet();
-            for (int i = 1; i < cellGrid.getceldas().Length - 1; i++)
-            {
-                for (int j = 1; j < cellGrid.getceldas()[i].Length - 1; j++)
-                {
-                    cellGrid.getceldas()[i][j].GetRectangleTemp().Fill = ExtensionClass.GetTempColor(cellGrid.getceldas()[i][j].getTemperature());
-                    cellGrid.getceldas()[i][j].GetRectanglePhase().Fill = ExtensionClass.GetPhaseColor(cellGrid.getceldas()[i][j].getPhase()); ;
-                }
-            }
+            cellGrid.Represent();
             Started = true;
             Tiempo.Add(Math.Round(Tiempo[Tiempo.Count - 1] + 0.000005,6));
             timer_label.Content = Convert.ToString(Tiempo[Tiempo.Count-1])+" s";
@@ -215,8 +207,12 @@ namespace Aplicaion
         {
             timer.Stop();
             HelpLabel.Content = "Simulation paused";
-            if(cellGrid.getMemory().Count!=0)
+            if (cellGrid.getMemory().Count != 0)
+            {
                 cellGrid.setceldas(cellGrid.getMemory().Pop());
+                cellGrid.Represent();
+            }
+                
         }
 
         //Añade un elemento de la pila
@@ -235,7 +231,6 @@ namespace Aplicaion
 
             //Nos indica que la grid se ha seteado y por lo tanto se puede confirmar la configuración
             gridSet = true;
-            GranitoInicial = true;
 
             grid.Children.Clear();
             grid.ColumnDefinitions.Clear();
@@ -253,31 +248,7 @@ namespace Aplicaion
             cellGrid.getceldas()[5][5].GetRectangleTemp().Fill = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
             cellGrid.getceldas()[5][5].setPhase(0);
             cellGrid.getceldas()[5][5].setTemperature(0);
-        }
-
-
-        private void Grid2_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            try
-            {
-                GranitoInicial = true;
-                Point Location = e.GetPosition(grid2);
-                int row = Convert.ToInt32(Math.Truncate(Location.Y / (grid2.Height / Convert.ToDouble(grid2.ColumnDefinitions.Count))));
-                int column = Convert.ToInt32(Math.Truncate(Location.X / (grid2.Width / Convert.ToDouble(grid2.RowDefinitions.Count))));
-                if (Started)
-                {
-                    MessageBox.Show(cellGrid.getceldas()[row + 1][column + 1].getPhase().ToString());
-                }
-                else
-                {
-                    cellGrid.getceldas()[row + 1][column + 1].GetRectanglePhase().Fill = new SolidColorBrush(Color.FromArgb(255, 0, 255, 0));
-                    cellGrid.getceldas()[row + 1][column + 1].GetRectangleTemp().Fill = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
-                    cellGrid.getceldas()[row + 1][column + 1].setPhase(0);
-                    cellGrid.getceldas()[row + 1][column + 1].setTemperature(0);
-                }
-            }
-            catch { }
-
+            Combobox_Condition.SelectedIndex = 2;
         }
 
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
@@ -285,7 +256,6 @@ namespace Aplicaion
             try
             {
                 Point Location = e.GetPosition(grid);
-                GranitoInicial = true;
                 int row = Convert.ToInt32(Math.Truncate(Location.Y / (grid.Height / Convert.ToDouble(grid.ColumnDefinitions.Count))));
                 int column = Convert.ToInt32(Math.Truncate(Location.X / (grid.Width / Convert.ToDouble(grid.RowDefinitions.Count))));
                 if (Started)
@@ -294,14 +264,29 @@ namespace Aplicaion
                 }
                 else
                 {
-                    cellGrid.getceldas()[row + 1][column + 1].GetRectangleTemp().Fill = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
-                    cellGrid.getceldas()[row + 1][column + 1].GetRectanglePhase().Fill = new SolidColorBrush(Color.FromArgb(255, 0, 255, 0));
-                    cellGrid.getceldas()[row + 1][column + 1].setPhase(0);
-                    cellGrid.getceldas()[row + 1][column + 1].setTemperature(0);
+                    if (cellGrid.getceldas()[row + 1][column + 1].getPhase() != 0)
+                    {
+                        cellGrid.getceldas()[row + 1][column + 1].GetRectanglePhase().Fill = new SolidColorBrush(Color.FromArgb(255, 0, 255, 0));
+                        cellGrid.getceldas()[row + 1][column + 1].GetRectangleTemp().Fill = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
+                        cellGrid.getceldas()[row + 1][column + 1].setPhase(0);
+                        cellGrid.getceldas()[row + 1][column + 1].setTemperature(0);
+                    }
+                    else
+                    {
+                        cellGrid.getceldas()[row + 1][column + 1].GetRectanglePhase().Fill = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255));
+                        cellGrid.getceldas()[row + 1][column + 1].GetRectangleTemp().Fill = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255));
+                        cellGrid.getceldas()[row + 1][column + 1].setPhase(1);
+                        cellGrid.getceldas()[row + 1][column + 1].setTemperature(-1);
+                    }
                 }
 
             }
             catch { }
+        }
+
+        private void Grid2_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Grid_MouseDown(sender, e);
         }
 
         private void Confirm_Button_Click(object sender, RoutedEventArgs e)
@@ -312,7 +297,7 @@ namespace Aplicaion
                 {
                     if (Condition)
                     {
-                        if (GranitoInicial)
+                        if (cellGrid.HayGrano())
                         {
                             //Buttons
                             SetGrid.IsEnabled = false;
@@ -329,6 +314,10 @@ namespace Aplicaion
                             Combobox_Condition.IsEnabled = false;
 
                             Confirm_Button.Content = "Reset Configuration";
+                            HelpLabel.Content = "";
+
+                            //Style
+                            Confirm_Button.Background = new SolidColorBrush(Color.FromArgb(255, 255, 110, 110));
                         }
                         else
                         {
@@ -364,7 +353,14 @@ namespace Aplicaion
 
                 Combobox_Condition.IsEnabled = true;
 
+                timer.Stop();
+                DiscardGrid_Click(new object(), new RoutedEventArgs());
+
                 Confirm_Button.Content = "Confirm Configuration";
+                HelpLabel.Content="Build the environment first!";
+
+                //Style
+                Confirm_Button.Background = new SolidColorBrush(Color.FromArgb(255, 160, 255, 110));
             }
           
         }
