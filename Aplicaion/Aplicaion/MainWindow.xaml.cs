@@ -19,7 +19,6 @@ namespace Aplicaion
 {
     public partial class MainWindow : Window
     {
-        Rectangle[][] GraphicGrid;
         System.Windows.Threading.DispatcherTimer timer = new System.Windows.Threading.DispatcherTimer();
         bool Condition = false;
         bool Mirror = true;
@@ -28,6 +27,8 @@ namespace Aplicaion
         bool gridSet = false;
         List<double> Tiempo = new List<double>() { 0 };
         Malla cellGrid = new Malla();
+        bool Customvar = false;
+        Variables variables;
         
         public MainWindow()
         {
@@ -51,17 +52,17 @@ namespace Aplicaion
             gridSet = true;
 
             //Grid
-            GraphicGrid = new Rectangle[Convert.ToInt32(RowsSlider.Value)][];
+            Rectangle[][] GraphicGrid = new Rectangle[Convert.ToInt32(RowsSlider.Value)][];
             cellGrid.setceldas(new Celda[Convert.ToInt32(RowsSlider.Value)+2][]);
 
-            //Relleno de Columnas
+            //Adding Columns
             for (int j = 0; j < ColumnSlider.Value; j++)
             {
                 grid.ColumnDefinitions.Add(new ColumnDefinition());
                 grid2.ColumnDefinitions.Add(new ColumnDefinition());
             }
     
-            //Adding las Rows
+            //Adding Rows
             for (int i = 0; i < RowsSlider.Value+2; i++)
             {
                 Celda[] cellRow = new Celda[Convert.ToInt32(ColumnSlider.Value)+2];
@@ -112,7 +113,7 @@ namespace Aplicaion
             }
         }
 
-        //Esconde la malla y hace un reset
+        //Borra la malla y hace un reset
         private void DiscardGrid_Click(object sender, RoutedEventArgs e)
         {
             SetGrid.IsEnabled = true;
@@ -167,7 +168,7 @@ namespace Aplicaion
         //Pinta las celdas Color.FromArgb(255, 255, 0, 0)
         private void timer_Tick(object sender, EventArgs e)
         {
-            cellGrid.Calcular(Mirror, new Variables(true));
+            cellGrid.Calcular(Mirror, variables);
             cellGrid.SaveAndSet();
             cellGrid.Represent();
             Started = true;
@@ -249,6 +250,7 @@ namespace Aplicaion
             cellGrid.getceldas()[5][5].setPhase(0);
             cellGrid.getceldas()[5][5].setTemperature(0);
             Combobox_Condition.SelectedIndex = 2;
+            Combobox_Variables.SelectedIndex = 1;
         }
 
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
@@ -286,7 +288,35 @@ namespace Aplicaion
 
         private void Grid2_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            Grid_MouseDown(sender, e);
+            try
+            {
+                Point Location = e.GetPosition(grid2);
+                int row = Convert.ToInt32(Math.Truncate(Location.Y / (grid.Height / Convert.ToDouble(grid.ColumnDefinitions.Count))));
+                int column = Convert.ToInt32(Math.Truncate(Location.X / (grid.Width / Convert.ToDouble(grid.RowDefinitions.Count))));
+                if (Started)
+                {
+                    MessageBox.Show(cellGrid.getceldas()[row + 1][column + 1].getPhase().ToString());
+                }
+                else
+                {
+                    if (cellGrid.getceldas()[row + 1][column + 1].getPhase() != 0)
+                    {
+                        cellGrid.getceldas()[row + 1][column + 1].GetRectanglePhase().Fill = new SolidColorBrush(Color.FromArgb(255, 0, 255, 0));
+                        cellGrid.getceldas()[row + 1][column + 1].GetRectangleTemp().Fill = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
+                        cellGrid.getceldas()[row + 1][column + 1].setPhase(0);
+                        cellGrid.getceldas()[row + 1][column + 1].setTemperature(0);
+                    }
+                    else
+                    {
+                        cellGrid.getceldas()[row + 1][column + 1].GetRectanglePhase().Fill = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255));
+                        cellGrid.getceldas()[row + 1][column + 1].GetRectangleTemp().Fill = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255));
+                        cellGrid.getceldas()[row + 1][column + 1].setPhase(1);
+                        cellGrid.getceldas()[row + 1][column + 1].setTemperature(-1);
+                    }
+                }
+
+            }
+            catch { }
         }
 
         private void Confirm_Button_Click(object sender, RoutedEventArgs e)
@@ -297,31 +327,38 @@ namespace Aplicaion
                 {
                     if (Condition)
                     {
-                        if (cellGrid.HayGrano())
+                        if (variables != null)
                         {
-                            //Buttons
-                            SetGrid.IsEnabled = false;
-                            DiscardGrid.IsEnabled = false;
-                            ColumnSlider.IsEnabled = false;
-                            RowsSlider.IsEnabled = false;
+                            if (cellGrid.HayGrano())
+                            {
+                                //Buttons
+                                SetGrid.IsEnabled = false;
+                                DiscardGrid.IsEnabled = false;
+                                ColumnSlider.IsEnabled = false;
+                                RowsSlider.IsEnabled = false;
 
-                            button_Play.IsEnabled = true;
-                            button_Pause.IsEnabled = true;
-                            button_Atrás.IsEnabled = true;
-                            button_Adelante.IsEnabled = true;
-                            button_Stop.IsEnabled = true;
+                                button_Play.IsEnabled = true;
+                                button_Pause.IsEnabled = true;
+                                button_Atrás.IsEnabled = true;
+                                button_Adelante.IsEnabled = true;
+                                button_Stop.IsEnabled = true;
 
-                            Combobox_Condition.IsEnabled = false;
+                                Combobox_Condition.IsEnabled = false;
 
-                            Confirm_Button.Content = "Reset Configuration";
-                            HelpLabel.Content = "";
+                                Confirm_Button.Content = "Reset Configuration";
+                                HelpLabel.Content = "";
 
-                            //Style
-                            Confirm_Button.Background = new SolidColorBrush(Color.FromArgb(255, 255, 110, 110));
+                                //Style
+                                Confirm_Button.Background = new SolidColorBrush(Color.FromArgb(255, 255, 110, 110));
+                            }
+                            else
+                            {
+                                MessageBox.Show("Select the Starting Point/s First!");
+                            }
                         }
                         else
                         {
-                            MessageBox.Show("Select the Starting Point/s First!");
+                            MessageBox.Show("Select the Variables First!");
                         }
                         
                     }
@@ -339,6 +376,8 @@ namespace Aplicaion
             }
             else
             {
+                //We set started to false because the simulation has ended
+                Started = false;
                 //Buttons
                 SetGrid.IsEnabled = true;
                 DiscardGrid.IsEnabled = true;
@@ -369,6 +408,34 @@ namespace Aplicaion
         {
             CustomVariables c = new CustomVariables();
             c.Show();
+        }
+
+        private void Combobox_Variables_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (Combobox_Variables.SelectedIndex != 0)
+            {
+                if (Customvar)
+                {
+                    MessageBoxButton buttons = MessageBoxButton.OKCancel;
+                    MessageBoxResult result = MessageBox.Show("You will erase your custom variables", "Warning", buttons, MessageBoxImage.Warning);
+                    if (result == MessageBoxResult.OK)
+                    {
+                        if (Combobox_Variables.SelectedIndex == 1)
+                            variables = new Variables(true);
+                        else
+                            variables = new Variables(false);
+                    }
+                    else
+                        Combobox_Variables.SelectedIndex = 0;
+                }
+                else
+                {
+                    if (Combobox_Variables.SelectedIndex == 1)
+                        variables = new Variables(true);
+                    else
+                        variables = new Variables(false);
+                }
+            }
         }
     }
 }

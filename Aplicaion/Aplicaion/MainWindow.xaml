@@ -161,7 +161,7 @@
         <Label x:Name="timer_label" Content="0" HorizontalAlignment="Left" Margin="841,505,0,0" VerticalAlignment="Top" FontSize="22" FontWeight="Bold"/>
         <Button x:Name="Confirm_Button" Content="Confirm Configuration" HorizontalAlignment="Left" VerticalAlignment="Top" Width="145" Margin="85,267,0,0" Style="{DynamicResource ButtonStyle2}" Background="#FFA0FF6E" Height="24" BorderThickness="2" FontWeight="Bold" Click="Confirm_Button_Click"/>
         <Button x:Name="Custom_Variables" Content="Custom Variables" HorizontalAlignment="Left" VerticalAlignment="Top" Width="109" Margin="29,232,0,0" Style="{DynamicResource ButtonStyle2}" Click="Custom_Variables_Click"/>
-        <ComboBox x:Name="Combobox_Variables" HorizontalAlignment="Left" Margin="182,230,0,0" VerticalAlignment="Top" Width="120" SelectedIndex="0">
+        <ComboBox x:Name="Combobox_Variables" HorizontalAlignment="Left" Margin="182,230,0,0" VerticalAlignment="Top" Width="120" SelectedIndex="0" SelectionChanged="Combobox_Variables_SelectionChanged">
             <ListBoxItem Content="Select Variables"/>
             <ListBoxItem Content="Parametres 1"/>
             <ListBoxItem Content="Parametres 2"/>
