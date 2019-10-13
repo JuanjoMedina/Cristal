@@ -168,11 +168,12 @@ namespace Aplicaion
         //Pinta las celdas Color.FromArgb(255, 255, 0, 0)
         private void timer_Tick(object sender, EventArgs e)
         {
+            timer_label.Visibility = Visibility.Visible;
             cellGrid.Calcular(Mirror, variables);
             cellGrid.SaveAndSet();
             cellGrid.Represent();
             Started = true;
-            Tiempo.Add(Math.Round(Tiempo[Tiempo.Count - 1] + 0.000005,6));
+            Tiempo.Add(Math.Round(Tiempo[Tiempo.Count - 1] + variables.GetDeltaT(),6));
             timer_label.Content = Convert.ToString(Tiempo[Tiempo.Count-1])+" s";
         }
 
@@ -181,7 +182,6 @@ namespace Aplicaion
         {
             timer.Start();
             HelpLabel.Content = "Simulation running";
-            timer_label.Visibility = Visibility.Visible;
         }
 
         //Para el timer
@@ -199,8 +199,15 @@ namespace Aplicaion
         private void Button_Stop_Click(object sender, RoutedEventArgs e)
         {
             timer.Stop();
-            HelpLabel.Content = "Simulation ended";
+            HelpLabel.Content = "Simulation restarted";
             timer_label.Visibility = Visibility.Hidden;
+            while (cellGrid.getMemory().Count != 0)
+            {
+                cellGrid.setceldas(cellGrid.getMemory().Pop());
+            }
+            cellGrid.Represent();
+            Tiempo = new List<double>() { 0 };
+            timer_label.Content = Convert.ToString(Tiempo[Tiempo.Count - 1]) + " s";
         }
 
         //Saca un elemento de la pila
@@ -212,8 +219,12 @@ namespace Aplicaion
             {
                 cellGrid.setceldas(cellGrid.getMemory().Pop());
                 cellGrid.Represent();
+
+                Tiempo.RemoveAt(Tiempo.Count - 1);
+                timer_label.Content = Convert.ToString(Tiempo[Tiempo.Count - 1]) + " s";
             }
-                
+
+
         }
 
         //Añade un elemento de la pila
@@ -336,6 +347,7 @@ namespace Aplicaion
                                 DiscardGrid.IsEnabled = false;
                                 ColumnSlider.IsEnabled = false;
                                 RowsSlider.IsEnabled = false;
+                                button_Demonstration.IsEnabled = false;
 
                                 button_Play.IsEnabled = true;
                                 button_Pause.IsEnabled = true;
@@ -344,6 +356,8 @@ namespace Aplicaion
                                 button_Stop.IsEnabled = true;
 
                                 Combobox_Condition.IsEnabled = false;
+                                Combobox_Variables.IsEnabled = false;
+                                Custom_Variables.IsEnabled = false;
 
                                 Confirm_Button.Content = "Reset Configuration";
                                 HelpLabel.Content = "";
@@ -383,6 +397,7 @@ namespace Aplicaion
                 DiscardGrid.IsEnabled = true;
                 ColumnSlider.IsEnabled = true;
                 RowsSlider.IsEnabled = true;
+                button_Demonstration.IsEnabled = true;
 
                 button_Play.IsEnabled = false;
                 button_Pause.IsEnabled = false;
@@ -391,6 +406,8 @@ namespace Aplicaion
                 button_Stop.IsEnabled = false;
 
                 Combobox_Condition.IsEnabled = true;
+                Combobox_Variables.IsEnabled = true;
+                Custom_Variables.IsEnabled = true;
 
                 timer.Stop();
                 DiscardGrid_Click(new object(), new RoutedEventArgs());
@@ -436,6 +453,8 @@ namespace Aplicaion
                         variables = new Variables(false);
                 }
             }
+            else
+                variables = null;
         }
     }
 }
