@@ -66,7 +66,7 @@ namespace Aplicaion
             for (int i = 0; i < RowsSlider.Value+2; i++)
             {
                 Celda[] cellRow = new Celda[Convert.ToInt32(ColumnSlider.Value)+2];
-                if (i > 0 && i <= ColumnSlider.Value)
+                if (i > 0 && i <= RowsSlider.Value)
                 {
                     grid.RowDefinitions.Add(new RowDefinition());
                     grid2.RowDefinitions.Add(new RowDefinition());
@@ -269,8 +269,8 @@ namespace Aplicaion
             try
             {
                 Point Location = e.GetPosition(grid);
-                int row = Convert.ToInt32(Math.Truncate(Location.Y / (grid.Height / Convert.ToDouble(grid.ColumnDefinitions.Count))));
-                int column = Convert.ToInt32(Math.Truncate(Location.X / (grid.Width / Convert.ToDouble(grid.RowDefinitions.Count))));
+                int row = Convert.ToInt32(Math.Truncate(Location.Y / (grid.Height / Convert.ToDouble(grid.RowDefinitions.Count)))); 
+                int column = Convert.ToInt32(Math.Truncate(Location.X / (grid.Width / Convert.ToDouble(grid.ColumnDefinitions.Count))));
                 if (Started)
                 {
                     MessageBox.Show(cellGrid.getceldas()[row + 1][column + 1].getTemperature().ToString());
@@ -302,8 +302,8 @@ namespace Aplicaion
             try
             {
                 Point Location = e.GetPosition(grid2);
-                int row = Convert.ToInt32(Math.Truncate(Location.Y / (grid.Height / Convert.ToDouble(grid.ColumnDefinitions.Count))));
-                int column = Convert.ToInt32(Math.Truncate(Location.X / (grid.Width / Convert.ToDouble(grid.RowDefinitions.Count))));
+                int row = Convert.ToInt32(Math.Truncate(Location.Y / (grid2.Height / Convert.ToDouble(grid2.RowDefinitions.Count)))); 
+                int column = Convert.ToInt32(Math.Truncate(Location.X / (grid2.Width / Convert.ToDouble(grid2.ColumnDefinitions.Count))));
                 if (Started)
                 {
                     MessageBox.Show(cellGrid.getceldas()[row + 1][column + 1].getPhase().ToString());
@@ -390,6 +390,8 @@ namespace Aplicaion
             }
             else
             {
+                //Unsetting variables
+                cellGrid = new Malla();
                 //We set started to false because the simulation has ended
                 Started = false;
                 //Buttons
