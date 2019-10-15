@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace MisClases
 {
+    [Serializable]
     public class Variables
     {
         double Epsilon;

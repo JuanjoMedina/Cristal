@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Shapes;
 
 namespace MisClases
 {
@@ -121,5 +122,28 @@ namespace MisClases
             }
             return hayGrano;
         }
+        public void loadFixRectangles(Rectangle[][] rectanglesTemp,Rectangle[][] rectanglesPhase)
+        {
+            Celda[][][] temp = this.getMemory().ToArray();
+            for (int i = 1; i < this.getceldas().Length-1; i++)
+                for (int j = 1; j < this.getceldas()[0].Length-1; j++)
+                {
+                    this.getceldas()[i][j].setRectangles(rectanglesTemp[i][j], rectanglesPhase[i][j]);
+                    for (int k = 0; k < this.memory.Count; k++)
+                        temp[k][i][j].setRectangles(rectanglesTemp[i][j], rectanglesPhase[i][j]);
+                }
+            Stack<Celda[][]> mem = new Stack<Celda[][]>();
+            int a = temp.Length - 1;
+            while (a != -1)
+            {
+                mem.Push(temp[a]);
+                a--;
+            }
+            this.memory = mem;
+
+
+
+        }
+
     }
 }

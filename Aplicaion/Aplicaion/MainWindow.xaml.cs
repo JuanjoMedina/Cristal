@@ -13,7 +13,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Runtime.Serialization.Formatters.Binary;
 using MisClases;
+using System.IO;
+using Microsoft.Win32;
 
 namespace Aplicaion
 {
@@ -52,7 +55,6 @@ namespace Aplicaion
             gridSet = true;
 
             //Grid
-            Rectangle[][] GraphicGrid = new Rectangle[Convert.ToInt32(RowsSlider.Value)][];
             cellGrid.setceldas(new Celda[Convert.ToInt32(RowsSlider.Value)+2][]);
 
             //Adding Columns
@@ -359,6 +361,9 @@ namespace Aplicaion
                                 Combobox_Variables.IsEnabled = false;
                                 Custom_Variables.IsEnabled = false;
 
+                                button_Save.Visibility = Visibility.Visible;
+                                button_Load.Visibility = Visibility.Hidden;
+
                                 Confirm_Button.Content = "Reset Configuration";
                                 HelpLabel.Content = "";
 
@@ -411,7 +416,11 @@ namespace Aplicaion
                 Combobox_Variables.IsEnabled = true;
                 Custom_Variables.IsEnabled = true;
 
+                button_Save.Visibility = Visibility.Hidden;
+                button_Load.Visibility = Visibility.Visible;
+
                 timer.Stop();
+                timer_label.Visibility = Visibility.Hidden;
                 DiscardGrid_Click(new object(), new RoutedEventArgs());
 
                 Confirm_Button.Content = "Confirm Configuration";
@@ -458,5 +467,138 @@ namespace Aplicaion
             else
                 variables = null;
         }
+
+        private void Button_Save_Click(object sender, RoutedEventArgs e)
+        {
+            timer.Stop();
+            try
+            {
+                Guardado Guardar = new Guardado(cellGrid, variables,Mirror,Tiempo);
+                SaveFileDialog Dialogo = new SaveFileDialog();
+                if (Dialogo.ShowDialog() == true)
+                {
+                    BinaryFormatter Bf = new BinaryFormatter();
+                    FileStream stream = File.OpenWrite(Dialogo.FileName);
+                    Bf.Serialize(stream, Guardar);
+                    stream.Close();
+                }
+            }
+            catch
+            {
+                MessageBox.Show("There was a problem saving");
+            }
+        }
+
+        private void Button_Load_Click(object sender, RoutedEventArgs e)
+        {
+
+            try
+            {
+                OpenFileDialog Dialogo2 = new OpenFileDialog();
+                if (Dialogo2.ShowDialog() == true)
+                {
+                    BinaryFormatter Bf = new BinaryFormatter();
+                    FileStream r = File.OpenRead(Dialogo2.FileName);
+                    Guardado bac = (Guardado)Bf.Deserialize(r);
+                    r.Close();
+                    Mirror = bac.getMirror();
+                    variables = bac.getVariables();
+                    cellGrid = bac.getGrid();
+                    Tiempo = bac.getTiempo();
+
+                    ColumnSlider.Value = cellGrid.getceldas()[0].Length-2;
+                    RowsSlider.Value = cellGrid.getceldas().Length-2;
+
+                    //Restarting Grid
+                    grid.Children.Clear();
+                    grid.ColumnDefinitions.Clear();
+                    grid.RowDefinitions.Clear();
+                    grid2.Children.Clear();
+                    grid2.ColumnDefinitions.Clear();
+                    grid2.RowDefinitions.Clear();
+
+
+                //Adding Columns
+                for (int j = 0; j < ColumnSlider.Value; j++)
+                    {
+                        grid.ColumnDefinitions.Add(new ColumnDefinition());
+                        grid2.ColumnDefinitions.Add(new ColumnDefinition());
+                    }
+
+                    //Adding Rows
+                    Rectangle[][] rectanglesTemp = new Rectangle[cellGrid.getceldas().Length][];
+                    Rectangle[][] rectanglesPhase = new Rectangle[cellGrid.getceldas().Length][];
+                    for (int i = 1; i < RowsSlider.Value + 1; i++)
+                    {
+                        Rectangle[] CellRowTemp = new Rectangle[cellGrid.getceldas()[0].Length];
+                        Rectangle[] CellRowPhase = new Rectangle[cellGrid.getceldas()[0].Length];
+                        grid.RowDefinitions.Add(new RowDefinition());
+                        grid2.RowDefinitions.Add(new RowDefinition());
+
+                        //This for loop prints the grid
+                        for (int j = 1; j < ColumnSlider.Value + 1; j++)
+                        {
+
+                            Rectangle rectangle = new Rectangle();
+                            Rectangle rectangle2 = new Rectangle();
+                            SolidColorBrush BlackBrush = new SolidColorBrush();
+                            BlackBrush.Color = Colors.Black;
+                            rectangle.Stroke = BlackBrush;
+                            rectangle2.Stroke = BlackBrush;
+                            rectangle.StrokeThickness = 1;
+                            rectangle2.StrokeThickness = 1;
+                            rectangle.Fill = new SolidColorBrush(Colors.White);
+                            rectangle2.Fill = new SolidColorBrush(Colors.White);
+                            //Here we add the rectangles inside the grid
+                            Grid.SetRow(rectangle, i-1);
+                            Grid.SetColumn(rectangle, j-1);
+                            grid.Children.Add(rectangle);
+                            Grid.SetRow(rectangle2, i-1);
+                            Grid.SetColumn(rectangle2, j-1);
+                            grid2.Children.Add(rectangle2);
+                            CellRowTemp[j] = rectangle;
+                            CellRowPhase[j] = rectangle2;
+
+                        }
+                        rectanglesTemp[i] = CellRowTemp;
+                        rectanglesPhase[i] = CellRowPhase;
+                    }
+                    cellGrid.loadFixRectangles(rectanglesTemp, rectanglesPhase);
+                    cellGrid.Represent(); 
+
+                    //Style
+                    SetGrid.IsEnabled = false;
+                    DiscardGrid.IsEnabled = false;
+                    ColumnSlider.IsEnabled = false;
+                    RowsSlider.IsEnabled = false;
+                    button_Demonstration.IsEnabled = false;
+
+                    button_Play.IsEnabled = true;
+                    button_Pause.IsEnabled = true;
+                    button_Atrás.IsEnabled = true;
+                    button_Adelante.IsEnabled = true;
+                    button_Stop.IsEnabled = true;
+
+                    Combobox_Condition.IsEnabled = false;
+                    Combobox_Variables.IsEnabled = false;
+                    Custom_Variables.IsEnabled = false;
+
+                    button_Save.Visibility = Visibility.Visible;
+                    button_Load.Visibility = Visibility.Hidden;
+
+                    Confirm_Button.Content = "Reset Configuration";
+                    HelpLabel.Content = "";
+
+                    //Style
+                    Confirm_Button.Background = new SolidColorBrush(Color.FromArgb(255, 255, 110, 110));
+
+                }
+        }
+            catch
+            {
+                MessageBox.Show("There was a problem loading");
+            }
+
+}
     }
 }

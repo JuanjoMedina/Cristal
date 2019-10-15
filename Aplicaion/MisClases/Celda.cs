@@ -10,8 +10,8 @@ namespace MisClases
         private double FutureTemperature;
         private double Phase;
         private double FuturePhase;
-        private Rectangle rectangleTemp;
-        private Rectangle rectanglePhase;
+        [NonSerialized]private Rectangle rectangleTemp;
+        [NonSerialized]private Rectangle rectanglePhase;
 
         public Celda()
         {
@@ -87,6 +87,11 @@ namespace MisClases
         {
             this.Temperature = this.FutureTemperature;
             this.Phase = this.FuturePhase;
+        }
+        public void setRectangles(Rectangle RecTemp, Rectangle RecPhase)
+        {
+            this.rectangleTemp = RecTemp;
+            this.rectanglePhase = RecPhase;
         }
     }
 }

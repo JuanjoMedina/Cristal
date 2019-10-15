@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Celda.cs" />
     <Compile Include="ExtensionClass.cs" />
+    <Compile Include="Guardado.cs" />
     <Compile Include="Malla.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Variables.cs" />
