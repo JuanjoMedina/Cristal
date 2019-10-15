@@ -32,7 +32,11 @@ namespace MisClases
             if (num < 0) { num = 0; }
             return new SolidColorBrush(Color.FromArgb(255, Convert.ToByte(Math.Exp(5.54517744448 * num)-1), 255, Convert.ToByte(Math.Exp(5.54517744448 * num)-1)));
         }
+        public string GetRandomNumberInRange(double minNumber, double maxNumber)
+        {
+            return Convert.ToString(Math.Round(new Random().NextDouble() * (maxNumber - minNumber) + minNumber,8));
+        }
 
-      
+
     }
 }

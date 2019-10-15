@@ -435,7 +435,8 @@ namespace Aplicaion
         private void Custom_Variables_Click(object sender, RoutedEventArgs e)
         {
             CustomVariables c = new CustomVariables();
-            c.Show();
+            c.ShowDialog();
+            variables=c.Getvars();
         }
 
         private void Combobox_Variables_SelectionChanged(object sender, SelectionChangedEventArgs e)
