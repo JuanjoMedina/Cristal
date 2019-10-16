@@ -397,8 +397,13 @@ namespace Aplicaion
             {
                 //Unsetting variables
                 cellGrid = new Malla();
-                //We set started to false because the simulation has ended
+                //We set started to false because the simulation has ended and we set custom variables to false
                 Started = false;
+                if (Customvar)
+                {
+                    Customvar = false;
+                    Combobox_Variables.Items.RemoveAt(3);
+                }
                 //Buttons
                 SetGrid.IsEnabled = true;
                 DiscardGrid.IsEnabled = true;
@@ -436,12 +441,24 @@ namespace Aplicaion
         {
             CustomVariables c = new CustomVariables();
             c.ShowDialog();
-            variables=c.Getvars();
+            if (c.getSet())
+            {
+                if (Customvar)
+                {
+                    Combobox_Variables.SelectedIndex = 0;
+                    Combobox_Variables.Items.RemoveAt(3);
+                }
+                variables = c.Getvars();
+                Customvar = true;
+                Combobox_Variables.Items.Add("Custom variables");
+                Combobox_Variables.SelectedIndex = 3;
+
+            }
         }
 
         private void Combobox_Variables_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (Combobox_Variables.SelectedIndex != 0)
+            if (Combobox_Variables.SelectedIndex != 0 && Combobox_Variables.SelectedIndex != 3)
             {
                 if (Customvar)
                 {
@@ -449,23 +466,25 @@ namespace Aplicaion
                     MessageBoxResult result = MessageBox.Show("You will erase your custom variables", "Warning", buttons, MessageBoxImage.Warning);
                     if (result == MessageBoxResult.OK)
                     {
+                        Customvar = false;
+                        Combobox_Variables.Items.RemoveAt(3);
                         if (Combobox_Variables.SelectedIndex == 1)
                             variables = new Variables(true);
-                        else
+                        else if (Combobox_Variables.SelectedIndex == 2)
                             variables = new Variables(false);
                     }
                     else
-                        Combobox_Variables.SelectedIndex = 0;
+                        Combobox_Variables.SelectedIndex = 3;
                 }
                 else
                 {
                     if (Combobox_Variables.SelectedIndex == 1)
                         variables = new Variables(true);
-                    else
+                    else if (Combobox_Variables.SelectedIndex == 2)
                         variables = new Variables(false);
                 }
             }
-            else
+            else if (Combobox_Variables.Items.Count != 4)
                 variables = null;
         }
 
@@ -600,6 +619,7 @@ namespace Aplicaion
                 MessageBox.Show("There was a problem loading");
             }
 
-}
+        }
+
     }
 }

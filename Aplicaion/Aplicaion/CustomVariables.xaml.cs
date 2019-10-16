@@ -22,6 +22,7 @@ namespace Aplicaion
     {
         ExtensionClass ext = new ExtensionClass();
         Variables var;
+        bool set=false;
         public CustomVariables()
         {
             InitializeComponent();
@@ -40,6 +41,7 @@ namespace Aplicaion
                 var deltay = Convert.ToDouble(deltay_box.Text);
 
                 var = new Variables(epsilon, m, beta, deltat, deltax, deltay, delta);
+                set = true;
                 this.Close();
             }
             catch
@@ -64,6 +66,10 @@ namespace Aplicaion
         public Variables Getvars()
         {
             return var;
+        }
+        public bool getSet()
+        {
+            return set;
         }
     }
 }
