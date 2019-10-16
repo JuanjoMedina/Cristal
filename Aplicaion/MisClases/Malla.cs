@@ -20,8 +20,8 @@ namespace MisClases
             {
                 for (int j = 1; j < celdas[i].Length-1; j++)
                 {
-                    double Phase = ExtensionClass.GetPhase(var, celdas[i][j].getPhase(), celdas[i - 1][j].getPhase(), celdas[i + 1][j].getPhase(), celdas[i][j + 1].getPhase(), celdas[i][j - 1].getPhase(),celdas[i][j].getTemperature());
-                    double Temp = ExtensionClass.GetTemp(var, celdas[i][j].getPhase(), celdas[i+1][j].getTemperature(),celdas[i][j].getTemperature(),celdas[i-1][j].getTemperature(),celdas[i][j+1].getTemperature(),celdas[i][j-1].getTemperature(),Phase);
+                    double Phase = this.celdas[i][j].ComputePhase(var, celdas[i][j].getPhase(), celdas[i - 1][j].getPhase(), celdas[i + 1][j].getPhase(), celdas[i][j + 1].getPhase(), celdas[i][j - 1].getPhase(),celdas[i][j].getTemperature());
+                    double Temp = this.celdas[i][j].ComputeTemp(var, celdas[i][j].getPhase(), celdas[i+1][j].getTemperature(),celdas[i][j].getTemperature(),celdas[i-1][j].getTemperature(),celdas[i][j+1].getTemperature(),celdas[i][j-1].getTemperature(),Phase);
                     this.celdas[i][j].setFuturePhase(Phase);
                     this.celdas[i][j].setFutureTemperature(Temp);
                     
@@ -104,8 +104,8 @@ namespace MisClases
             {
                 for (int j = 1; j < this.getceldas()[i].Length - 1; j++)
                 {
-                    this.getceldas()[i][j].GetRectangleTemp().Fill = ExtensionClass.GetTempColor(this.getceldas()[i][j].getTemperature());
-                    this.getceldas()[i][j].GetRectanglePhase().Fill = ExtensionClass.GetPhaseColor(this.getceldas()[i][j].getPhase()); ;
+                    this.getceldas()[i][j].SetTempColor();
+                    this.getceldas()[i][j].SetPhaseColor();
                 }
             }
         }

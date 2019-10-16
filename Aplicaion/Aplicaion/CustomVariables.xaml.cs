@@ -20,7 +20,6 @@ namespace Aplicaion
     /// </summary>
     public partial class CustomVariables : Window
     {
-        ExtensionClass ext = new ExtensionClass();
         Variables var;
         bool set=false;
         public CustomVariables()
@@ -55,13 +54,13 @@ namespace Aplicaion
 
         private void Random_Click(object sender, RoutedEventArgs e)
         {
-            epsilon_box.Text = ext.GetRandomNumberInRange(0.004, 0.006);
-            beta_box.Text = ext.GetRandomNumberInRange(350, 450);
-            delta_box.Text = ext.GetRandomNumberInRange(0.3, 0.7);
-            deltax_box.Text = ext.GetRandomNumberInRange(0.004, 0.006);
-            deltay_box.Text = ext.GetRandomNumberInRange(0.004, 0.006);
-            m_box.Text = ext.GetRandomNumberInRange(15, 25);
-            deltat_box.Text = ext.GetRandomNumberInRange(0.000004, 0.000006);
+            epsilon_box.Text = this.GetRandomNumberInRange(0.004, 0.006);
+            beta_box.Text = this.GetRandomNumberInRange(350, 450);
+            delta_box.Text = this.GetRandomNumberInRange(0.3, 0.7);
+            deltax_box.Text = this.GetRandomNumberInRange(0.004, 0.006);
+            deltay_box.Text = this.GetRandomNumberInRange(0.004, 0.006);
+            m_box.Text = this.GetRandomNumberInRange(15, 25);
+            deltat_box.Text = this.GetRandomNumberInRange(0.000004, 0.000006);
         }
         public Variables Getvars()
         {
@@ -70,6 +69,10 @@ namespace Aplicaion
         public bool getSet()
         {
             return set;
+        }
+        private string GetRandomNumberInRange(double minNumber, double maxNumber)
+        {
+            return Convert.ToString(Math.Round(new Random().NextDouble() * (maxNumber - minNumber) + minNumber, 8));
         }
     }
 }
