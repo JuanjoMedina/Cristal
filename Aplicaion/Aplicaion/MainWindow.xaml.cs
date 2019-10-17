@@ -40,6 +40,7 @@ namespace Aplicaion
             timer.Tick += new EventHandler(timer_Tick);
             timer.Interval = new TimeSpan(0,0,0,0, incrTiempo);
             timer_label.Visibility = Visibility.Hidden;
+            windowsFormsHost1.Child = new ZedGraph.ZedGraphControl();
         }
 
         //Hace void

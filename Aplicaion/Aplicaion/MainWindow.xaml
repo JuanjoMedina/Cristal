@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Aplicaion"
         mc:Ignorable="d"
-        Title="Don Cristal - SIMULACIÓN" Height="625" Width="1200">
+        Title="Don Cristal - SIMULACIÓN" Height="625" Width="1200" ResizeMode="NoResize">
 
     <Window.Resources>
         <Style x:Key="FocusVisual">
@@ -169,5 +169,7 @@
         <Label Content="or" HorizontalAlignment="Left" Margin="150,227,0,0" VerticalAlignment="Top" Height="30"/>
         <Button x:Name="button_Save" Content="Save" HorizontalAlignment="Left" VerticalAlignment="Top" Width="152" Margin="993,491,0,0" Style="{DynamicResource ButtonStyle2}" Click="Button_Save_Click" Height="54" Visibility="Hidden" FontSize="20"/>
         <Button x:Name="button_Load" Content="Load" HorizontalAlignment="Left" VerticalAlignment="Top" Width="152" Margin="993,491,0,0" Style="{DynamicResource ButtonStyle2}" IsDefault="True" Click="Button_Load_Click" Height="54" FontSize="20"/>
+        <WindowsFormsHost DockPanel.Dock="Right" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="windowsFormsHost1" Margin="30,337,906.6,193"/>
     </Grid>
+
 </Window>
