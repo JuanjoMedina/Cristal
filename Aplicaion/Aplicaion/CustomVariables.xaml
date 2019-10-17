@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Aplicaion"
         mc:Ignorable="d"
-        Title="CustomVariables" Height="450" Width="390.5">
+        Title="CustomVariables" Height="450" Width="390.5" ResizeMode="NoResize">
     <Window.Resources>
         <Style x:Key="FocusVisual">
             <Setter Property="Control.Template">
@@ -64,14 +64,18 @@
         </Style>
     </Window.Resources>
     <Grid Margin="0,0,2,0">
-        <Label x:Name="label" Content="Epsilon" HorizontalAlignment="Left" Margin="53,62,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="epsilon_box" HorizontalAlignment="Left" Height="23" Margin="128,65,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <Label x:Name="label_Copy" Content="m" HorizontalAlignment="Left" Margin="53,105,0,0" VerticalAlignment="Top"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="271*"/>
+            <ColumnDefinition Width="111*"/>
+        </Grid.ColumnDefinitions>
+        <Label x:Name="label" Content="Epsilon" Margin="53,62,0,0" HorizontalAlignment="Left" Width="48" Height="26" VerticalAlignment="Top"/>
+        <TextBox x:Name="epsilon_box" Margin="128,65,0,0" TextWrapping="Wrap" Height="23" VerticalAlignment="Top" HorizontalAlignment="Left" Width="120"/>
+        <Label x:Name="label_Copy" Content="m" Margin="53,105,0,0" HorizontalAlignment="Left" Width="21" Height="26" VerticalAlignment="Top"/>
         <TextBox x:Name="m_box" HorizontalAlignment="Left" Height="23" Margin="128,108,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <Label x:Name="label_Copy1" Content="Beta" HorizontalAlignment="Left" Margin="53,145,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="beta_box" HorizontalAlignment="Left" Height="23" Margin="128,148,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <Label x:Name="label_Copy2" Content="Sobreenfriamiento (Delta)&#xD;&#xA;" HorizontalAlignment="Left" Margin="53,188,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="delta_box" HorizontalAlignment="Left" Height="23" Margin="211,191,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="delta_box" HorizontalAlignment="Left" Height="23" Margin="211,191,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2"/>
         <Label x:Name="label_Copy3" Content="DeltaT" HorizontalAlignment="Left" Margin="53,229,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="deltat_box" HorizontalAlignment="Left" Height="23" Margin="128,232,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <Label x:Name="label_Copy4" Content="DeltaX" HorizontalAlignment="Left" Margin="53,272,0,0" VerticalAlignment="Top"/>
@@ -80,7 +84,7 @@
         <TextBox x:Name="deltay_box" HorizontalAlignment="Left" Height="23" Margin="128,319,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <Label x:Name="label_Copy6" Content="SET CUSTOM VARIABLES" HorizontalAlignment="Left" Margin="97,16,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
         <Button x:Name="Set_variables" Content="Set Variables" HorizontalAlignment="Left" VerticalAlignment="Top" Width="109" Margin="135,371,0,0" Style="{DynamicResource ButtonStyle2}" Click="Custom_Variables_Click"/>
-        <Button x:Name="random" Content="Fill Random" HorizontalAlignment="Left" VerticalAlignment="Top" Width="76" Margin="272,65,0,0" Style="{DynamicResource ButtonStyle2}" Click="Random_Click"/>
+        <Button x:Name="random" Content="Fill Random" HorizontalAlignment="Left" VerticalAlignment="Top" Width="76" Margin="0.894,65,0,0" Style="{DynamicResource ButtonStyle2}" Click="Random_Click" Grid.Column="1"/>
 
     </Grid>
 </Window>
