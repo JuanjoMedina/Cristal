@@ -10,7 +10,8 @@ namespace MisClases
 {
     public class Charts
     {
-        public void CreateGraph(ZedGraphControl zgc, PointPairList list1, String what)
+        //associates the graph with its values
+        public static void CreateGraph(ZedGraphControl zgc, PointPairList list1, String what)
         {
             // get a reference to the GraphPane
             GraphPane myPane = zgc.GraphPane;

@@ -118,6 +118,7 @@ namespace MisClases
                 }
             }
         }
+        //Looks for a grain in the grid
         public bool HayGrano()
         {
             bool hayGrano = false;
@@ -131,6 +132,7 @@ namespace MisClases
             }
             return hayGrano;
         }
+        //As the rectangles couldn't have been saved, all the stack has to associate with new rectangles
         public void loadFixRectangles(Rectangle[][] rectanglesTemp,Rectangle[][] rectanglesPhase)
         {
             Celda[][][] temp = this.getMemory().ToArray();

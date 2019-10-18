@@ -32,9 +32,9 @@ namespace Aplicaion
         List<double> Tiempo = new List<double>() { 0 };
         Malla cellGrid = new Malla();
         bool Customvar = false;
+        bool CustomvarUnmarked = false;
         double[] averages;
         Variables variables;
-        Charts charts = new Charts();
         PointPairList tempValues = new PointPairList();
         PointPairList phaseValues = new PointPairList();
 
@@ -46,11 +46,11 @@ namespace Aplicaion
             timer.Tick += new EventHandler(timer_Tick);
             timer.Interval = new TimeSpan(0,0,0,0, incrTiempo);
             timer_label.Visibility = Visibility.Hidden;
-            charts.CreateGraph(tempgraph, tempValues, "Temperature");
-            charts.CreateGraph(phasegraph, phaseValues, "Phase");
+            Charts.CreateGraph(tempgraph, tempValues, "Temperature");
+            Charts.CreateGraph(phasegraph, phaseValues, "Phase");
         }
 
-        //Hace void
+        //Sets the grid
         private void SetGrid_Click(object sender, RoutedEventArgs e)
         {
            //Buttons
@@ -59,7 +59,7 @@ namespace Aplicaion
             ColumnSlider.IsEnabled = false;
             RowsSlider.IsEnabled=false;
 
-            //Nos indica que la grid se ha seteado y por lo tanto se puede confirmar la configuración
+            //This indicates that the grid has been set and we can confirm the settings
             gridSet = true;
 
             //Grid
@@ -105,6 +105,7 @@ namespace Aplicaion
                             grid2.Children.Add(rectangle2);
                             cellRow[j] = new Celda(rectangle, rectangle2);
                         }
+                        //next two elses fill the bounday cells
                         else
                         {
                             cellRow[j] = new Celda();
@@ -123,7 +124,7 @@ namespace Aplicaion
             }
         }
 
-        //Borra la malla y hace un reset
+        //erases the grid and resets it
         private void DiscardGrid_Click(object sender, RoutedEventArgs e)
         {
             SetGrid.IsEnabled = true;
@@ -131,7 +132,7 @@ namespace Aplicaion
             ColumnSlider.IsEnabled = true;
             RowsSlider.IsEnabled = true;
 
-            //Nos indica que la grid se ha des-seteado y por lo tanto NO se puede confirmar la configuración
+            //This indicates that the grid hasn't been set and we cannot confirm the settings
             gridSet = false;
 
             Rectangle rectangle = (Rectangle)grid.Children[0];
@@ -148,19 +149,19 @@ namespace Aplicaion
         }
 
 
-        //Cambia el número al arrastrar 
+        //When you scroll it changes the number 
         private void RowsSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             RowsCount.Content = RowsSlider.Value.ToString();
         }
 
-        //Cambia el número al arrastrar 
+        //When you scroll it changes the number
         private void ColumnSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             ColumnsCount.Content = ColumnSlider.Value.ToString();
         }
 
-        //Nos avisa si hay alguna selección de Boundary Conditions
+        //It tells us if there is any selection of the boundary conditions
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (Combobox_Condition.SelectedIndex == 0)
@@ -175,34 +176,43 @@ namespace Aplicaion
             }
         }
 
-        //Pinta las celdas Color.FromArgb(255, 255, 0, 0)
+        //It calculates, saves and changes the color of the cells. After that adds the following values to the graph
         private void timer_Tick(object sender, EventArgs e)
         {
             timer_label.Visibility = Visibility.Visible;
-            averages=cellGrid.Calcular(Mirror, variables);
-            cellGrid.SaveAndSet();
-            cellGrid.Represent();
-            Started = true;
-            Tiempo.Add(Math.Round(Tiempo[Tiempo.Count - 1] + variables.GetDeltaT(),6));
-            timer_label.Content = Convert.ToString(Tiempo[Tiempo.Count-1])+" s";
+            try
+            {
+                averages = cellGrid.Calcular(Mirror, variables);
+                cellGrid.SaveAndSet();
+                cellGrid.Represent();
+                Tiempo.Add(Math.Round(Tiempo[Tiempo.Count - 1] + variables.GetDeltaT(), 6));
+                timer_label.Content = Convert.ToString(Tiempo[Tiempo.Count - 1]) + " s";
 
-            //ZedGRaph
-            tempValues.Add(Tiempo[Tiempo.Count - 1],averages[0]);
-            phaseValues.Add(Tiempo[Tiempo.Count - 1], averages[1]);
-            tempgraph.AxisChange();
-            phasegraph.AxisChange();
-            tempgraph.Invalidate();
-            phasegraph.Invalidate();
+                //ZedGRaph
+                tempValues.Add(Tiempo[Tiempo.Count - 1], averages[0]);
+                phaseValues.Add(Tiempo[Tiempo.Count - 1], averages[1]);
+                tempgraph.AxisChange();
+                phasegraph.AxisChange();
+                tempgraph.Invalidate();
+                phasegraph.Invalidate();
+            }
+            catch
+            {
+                MessageBox.Show("Something went wrong in your simulation. Possibly the parameters were not suitable and the simulation crashed. Please try with other settings or the predefined ones");
+                timer.Stop();
+                this.Confirm_Button_Click(new object(),new RoutedEventArgs());
+            }
         }
 
-        //Empieza el timer
+
+        //Starts the timer
         private void Button_Play_Click(object sender, RoutedEventArgs e)
         {
             timer.Start();
             HelpLabel.Content = "Simulation running";
         }
 
-        //Para el timer
+        //Stops the timer
         private void Button_Pause_Click(object sender, RoutedEventArgs e)
         {
             if (timer.IsEnabled)
@@ -213,7 +223,7 @@ namespace Aplicaion
             
         }
 
-        //Saca todos los elementos de la pila
+        //Gets all the elements out of the stack and resets the graph and the time list
         private void Button_Stop_Click(object sender, RoutedEventArgs e)
         {
             timer.Stop();
@@ -236,7 +246,7 @@ namespace Aplicaion
             phasegraph.Invalidate();
         }
 
-        //Saca un elemento de la pila
+        //Gets an element out of the stack and rewinds time one step
         private void Button_Atrás_Click(object sender, RoutedEventArgs e)
         {
             timer.Stop();
@@ -259,7 +269,7 @@ namespace Aplicaion
             phasegraph.Invalidate();
         }
 
-        //Añade un elemento de la pila
+        //It does one timer tick
         private void Button_Adelante_Click(object sender, RoutedEventArgs e)
         {
             timer_Tick(new object(), new EventArgs());
@@ -267,13 +277,13 @@ namespace Aplicaion
             HelpLabel.Content = "Simulation paused";
         }
 
-        //Nos muestra una prueba
+        //Sets predefined settings
         private void Button_Demonstration_Click(object sender, RoutedEventArgs e)
         {
             Rectangle rectangle = (Rectangle)grid.Children[0];
             Rectangle rectangle2 = (Rectangle)grid2.Children[0];
 
-            //Nos indica que la grid se ha seteado y por lo tanto se puede confirmar la configuración
+            //This indicates that the grid has been set and we can confirm the settings
             gridSet = true;
 
             grid.Children.Clear();
@@ -295,19 +305,17 @@ namespace Aplicaion
             Combobox_Condition.SelectedIndex = 2;
             Combobox_Variables.SelectedIndex = 1;
         }
-
+        //You select the cell where the grain sets
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
         {
             try
             {
+                //First you get the position and then it computes the row and the column where it is
                 Point Location = e.GetPosition(grid);
                 int row = Convert.ToInt32(Math.Truncate(Location.Y / (grid.Height / Convert.ToDouble(grid.RowDefinitions.Count)))); 
                 int column = Convert.ToInt32(Math.Truncate(Location.X / (grid.Width / Convert.ToDouble(grid.ColumnDefinitions.Count))));
-                if (Started)
-                {
-                    MessageBox.Show(cellGrid.getceldas()[row + 1][column + 1].getTemperature().ToString());
-                }
-                else
+                //If the settings haven't been confirmed, the clicked cell will change its status 
+                if (!Started)
                 {
                     if (cellGrid.getceldas()[row + 1][column + 1].getPhase() != 0)
                     {
@@ -328,7 +336,7 @@ namespace Aplicaion
             }
             catch { }
         }
-
+        //It does the same as the previous method but for the grid 2
         private void Grid2_MouseDown(object sender, MouseButtonEventArgs e)
         {
             try
@@ -336,11 +344,7 @@ namespace Aplicaion
                 Point Location = e.GetPosition(grid2);
                 int row = Convert.ToInt32(Math.Truncate(Location.Y / (grid2.Height / Convert.ToDouble(grid2.RowDefinitions.Count)))); 
                 int column = Convert.ToInt32(Math.Truncate(Location.X / (grid2.Width / Convert.ToDouble(grid2.ColumnDefinitions.Count))));
-                if (Started)
-                {
-                    MessageBox.Show(cellGrid.getceldas()[row + 1][column + 1].getPhase().ToString());
-                }
-                else
+                if (!Started)
                 {
                     if (cellGrid.getceldas()[row + 1][column + 1].getPhase() != 0)
                     {
@@ -361,7 +365,7 @@ namespace Aplicaion
             }
             catch { }
         }
-
+        //If all the parameters have been set the simulation can start. Once it has been confirmed this button will reset all the parameters
         private void Confirm_Button_Click(object sender, RoutedEventArgs e)
         {
             if (Confirm_Button.Content.ToString()=="Confirm Configuration")
@@ -370,10 +374,11 @@ namespace Aplicaion
                 {
                     if (Condition)
                     {
-                        if (variables != null)
+                        if (variables != null && !CustomvarUnmarked)
                         {
                             if (cellGrid.HayGrano())
                             {
+                                Started = true;
                                 //Buttons
                                 SetGrid.IsEnabled = false;
                                 DiscardGrid.IsEnabled = false;
@@ -407,7 +412,10 @@ namespace Aplicaion
                         }
                         else
                         {
-                            MessageBox.Show("Select the Variables First!");
+                            if (variables==null)
+                                MessageBox.Show("Select the Variables First!");
+                            else
+                                MessageBox.Show("You have unmarked your custom variables, please select them or select the predefined variables");
                         }
                         
                     }
@@ -433,6 +441,7 @@ namespace Aplicaion
                 {
                     Customvar = false;
                     Combobox_Variables.Items.RemoveAt(3);
+                    Combobox_Variables.SelectedIndex = 0;
                 }
                 //Buttons
                 SetGrid.IsEnabled = true;
@@ -476,7 +485,7 @@ namespace Aplicaion
             }
           
         }
-
+        //Opens a new window to create the custom variables. If there are some created will be rewritten
         private void Custom_Variables_Click(object sender, RoutedEventArgs e)
         {
             CustomVariables c = new CustomVariables();
@@ -498,6 +507,7 @@ namespace Aplicaion
 
         private void Combobox_Variables_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //If the selected index aren't the custom variables or the "select variables" it searches for the existence of some custom variables and it asks the user to delete them in order to set one of the predefined variables
             if (Combobox_Variables.SelectedIndex != 0 && Combobox_Variables.SelectedIndex != 3)
             {
                 if (Customvar)
@@ -524,10 +534,17 @@ namespace Aplicaion
                         variables = new Variables(false);
                 }
             }
+            //If you select "select variables" and there are not any custom variables, the variables of the system are set to null. If there are custom variables and the user selects "select variables " the bool "unmarked custom variables" sets true.
             else if (Combobox_Variables.Items.Count != 4)
                 variables = null;
-        }
+            else if (Combobox_Variables.Items.Count == 4)
+                if (Combobox_Variables.SelectedIndex == 0)
+                    CustomvarUnmarked = true;
+                else
+                    CustomvarUnmarked = false;
 
+        }
+       //Creates a new instance of Class Guardado in order to save all its atributes into a binary file using serialization
         private void Button_Save_Click(object sender, RoutedEventArgs e)
         {
             timer.Stop();
@@ -548,7 +565,7 @@ namespace Aplicaion
                 MessageBox.Show("There was a problem saving");
             }
         }
-
+        //Loads the file and initializes all settings with the information of the file
         private void Button_Load_Click(object sender, RoutedEventArgs e)
         {
 
@@ -660,12 +677,12 @@ namespace Aplicaion
             }
 
         }
-
-        Thickness bigT=new Thickness(365, 0, 160, 220);
-        Thickness smT1 = new Thickness(29, 333, 853, 201);
-        Thickness smT2 = new Thickness(27, 506, 855, 31);
         private void MkLarge1_Click(object sender, RoutedEventArgs e)
         {
+            Thickness bigT = new Thickness(365, 0, 160, 220);
+            Thickness smT1 = new Thickness(29, 333, 853, 201);
+            Thickness smT2 = new Thickness(27, 506, 855, 31);
+
             phasePlot.Margin = smT2;
             mkLarge2.Content = "Make Larger";
             if (mkLarge1.Content.ToString() == "Make Larger")
@@ -682,6 +699,10 @@ namespace Aplicaion
 
         private void MkLarge2_Click(object sender, RoutedEventArgs e)
         {
+            Thickness bigT = new Thickness(365, 0, 160, 220);
+            Thickness smT1 = new Thickness(29, 333, 853, 201);
+            Thickness smT2 = new Thickness(27, 506, 855, 31);
+
             tempPlot.Margin = smT1;
             mkLarge1.Content = "Make Larger";
             if (mkLarge2.Content.ToString() == "Make Larger")
@@ -694,6 +715,38 @@ namespace Aplicaion
                 mkLarge2.Content = "Make Larger";
                 phasePlot.Margin = smT2;
             }
+        }
+        //When you move over the grid there's a label that shows the cell temperature or phase
+        private void Grid_MouseMove(object sender, MouseEventArgs e)
+        {
+            Point Location = e.GetPosition(grid);
+            int row = Convert.ToInt32(Math.Truncate(Location.Y / (grid.Height / Convert.ToDouble(grid.RowDefinitions.Count))));
+            int column = Convert.ToInt32(Math.Truncate(Location.X / (grid.Width / Convert.ToDouble(grid.ColumnDefinitions.Count))));
+            if (Started)
+            {
+                LabelMostrar.Content = Math.Round(cellGrid.getceldas()[row + 1][column + 1].getTemperature(),4);
+            }
+        }
+
+        private void Grid2_MouseMove(object sender, MouseEventArgs e)
+        {
+            Point Location = e.GetPosition(grid2);
+            int row = Convert.ToInt32(Math.Truncate(Location.Y / (grid2.Height / Convert.ToDouble(grid2.RowDefinitions.Count))));
+            int column = Convert.ToInt32(Math.Truncate(Location.X / (grid2.Width / Convert.ToDouble(grid2.ColumnDefinitions.Count))));
+            if (Started)
+            {
+                LabelMostrar.Content=Math.Round(cellGrid.getceldas()[row + 1][column + 1].getPhase(),4);
+            }
+        }
+        //When you move out of the grid the label shows ""
+        private void Grid_MouseLeave(object sender, MouseEventArgs e)
+        {
+            LabelMostrar.Content = "";
+        }
+
+        private void Grid2_MouseLeave(object sender, MouseEventArgs e)
+        {
+            LabelMostrar.Content = "";
         }
     }
 }

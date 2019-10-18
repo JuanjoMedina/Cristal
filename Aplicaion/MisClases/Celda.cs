@@ -11,6 +11,7 @@ namespace MisClases
         private double FutureTemperature;
         private double Phase;
         private double FuturePhase;
+        //marks these atributes non serializable
         [NonSerialized]private Rectangle rectangleTemp;
         [NonSerialized]private Rectangle rectanglePhase;
 
@@ -102,6 +103,7 @@ namespace MisClases
         {
             return Tij + (((Timas1j - 2 * Tij + Timenos1j) / (Math.Pow(var.GetDeltaX(), 2))) + ((Tijmas1 - 2 * Tij + Tijmenos1) / (Math.Pow(var.GetDeltaY(), 2))) - ((1 / var.GetDelta()) * (30 * Math.Pow(Pij, 2) - 60 * Math.Pow(Pij, 3) + 30 * Math.Pow(Pij, 4)) * ((Phase - Pij) / var.GetDeltaT()))) * var.GetDeltaT();
         }
+        //Fills the cells with the correct color range following a mathematical formula
         public void SetTempColor()
         {
             double num = this.Temperature;

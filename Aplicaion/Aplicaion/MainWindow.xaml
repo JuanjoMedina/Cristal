@@ -106,7 +106,7 @@
 
 
     <Grid Margin="0,7,3,-19" RenderTransformOrigin="0.5,0.5" Height="677" VerticalAlignment="Top" >
-        <Grid x:Name="grid" HorizontalAlignment="Left" Height="350" VerticalAlignment="Top" Width="350"  Margin="365,69,0,0" MouseDown="Grid_MouseDown">
+        <Grid x:Name="grid" HorizontalAlignment="Left" Height="350" VerticalAlignment="Top" Width="350"  Margin="365,69,0,0" MouseDown="Grid_MouseDown" MouseMove="Grid_MouseMove" MouseLeave="Grid_MouseLeave">
             <Rectangle HorizontalAlignment="Left" Height="350" VerticalAlignment="Top" Width="350" Stroke="Black" StrokeThickness="2"/>
         </Grid>
         <Label x:Name="Rows" Content="Rows" HorizontalAlignment="Left" Margin="27,91,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.44,0.508" Height="27" Width="50" FontSize="16"/>
@@ -153,7 +153,7 @@
         <Label x:Name="label_Copy" Content="Average Temperature vs Time:" HorizontalAlignment="Left" Margin="27,307,0,0" VerticalAlignment="Top" Width="194"/>
         <Label x:Name="label_Copy2" Content="Average Phase vs Time:" HorizontalAlignment="Left" Margin="21,483,0,0" VerticalAlignment="Top" Width="150"/>
         <Label x:Name="label_Copy3" Content="Temperature vs Time" HorizontalAlignment="Left" Margin="476,31,0,0" VerticalAlignment="Top" Width="126"/>
-        <Grid x:Name="grid2" HorizontalAlignment="Left" Height="350" VerticalAlignment="Top" Width="350"  Margin="795,69,0,0" MouseDown="Grid2_MouseDown">
+        <Grid x:Name="grid2" HorizontalAlignment="Left" Height="350" VerticalAlignment="Top" Width="350"  Margin="795,69,0,0" MouseDown="Grid2_MouseDown" MouseMove="Grid2_MouseMove" MouseLeave="Grid2_MouseLeave">
             <Rectangle HorizontalAlignment="Left" Height="350" VerticalAlignment="Top" Width="350" Stroke="Black" StrokeThickness="2"/>
         </Grid>
         <Label x:Name="label_Copy4" Content="Phase vs Time" HorizontalAlignment="Left" Margin="912,35,0,0" VerticalAlignment="Top" Width="126"/>
@@ -178,6 +178,7 @@
         </WindowsFormsHost>
         <Button x:Name="mkLarge1" Content="Make Larger" HorizontalAlignment="Left" VerticalAlignment="Top" Width="109" Margin="221,308,0,0" Style="{DynamicResource ButtonStyle2}" Click="MkLarge1_Click"/>
         <Button x:Name="mkLarge2" Content="Make Larger" HorizontalAlignment="Left" VerticalAlignment="Top" Width="109" Margin="221,481,0,0" Style="{DynamicResource ButtonStyle2}" Click="MkLarge2_Click"/>
+        <Label x:Name="LabelMostrar" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="434,467,0,0" Height="46" Width="103" FontSize="20"/>
     </Grid>
 
 </Window>
