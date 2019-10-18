@@ -3,9 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:zed="clr-namespace:ZedGraph;assembly=ZedGraph"
         xmlns:local="clr-namespace:Aplicaion"
         mc:Ignorable="d"
-        Title="Don Cristal - SIMULACIÓN" Height="625" Width="1200" ResizeMode="NoResize">
+        Title="Don Cristal - SIMULACIÓN" Height="694" Width="1200" ResizeMode="NoResize">
 
     <Window.Resources>
         <Style x:Key="FocusVisual">
@@ -104,8 +105,8 @@
 
 
 
-    <Grid Margin="0,7,3,-21" RenderTransformOrigin="0.5,0.5" Height="608" VerticalAlignment="Top" >
-        <Grid x:Name="grid" HorizontalAlignment="Left" Height="350" VerticalAlignment="Top" Width="350"  Margin="365,53,0,0" MouseDown="Grid_MouseDown">
+    <Grid Margin="0,7,3,-19" RenderTransformOrigin="0.5,0.5" Height="677" VerticalAlignment="Top" >
+        <Grid x:Name="grid" HorizontalAlignment="Left" Height="350" VerticalAlignment="Top" Width="350"  Margin="365,69,0,0" MouseDown="Grid_MouseDown">
             <Rectangle HorizontalAlignment="Left" Height="350" VerticalAlignment="Top" Width="350" Stroke="Black" StrokeThickness="2"/>
         </Grid>
         <Label x:Name="Rows" Content="Rows" HorizontalAlignment="Left" Margin="27,91,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.44,0.508" Height="27" Width="50" FontSize="16"/>
@@ -121,27 +122,27 @@
             <ListBoxItem Content="Mirror Condition"/>
             <ListBoxItem Content="Fixed Condition"/>
         </ComboBox>
-        <Button x:Name="button_Atrás" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="52" Margin="794,437,0,0" Height="46" Style="{DynamicResource ButtonStyle1}" Click="Button_Atrás_Click" IsEnabled="False">
+        <Button x:Name="button_Atrás" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="52" Margin="794,467,0,0" Height="46" Style="{DynamicResource ButtonStyle1}" Click="Button_Atrás_Click" IsEnabled="False">
             <Button.Background>
                 <ImageBrush ImageSource="Pictures/unpasopatras.jpg"/>
             </Button.Background>
         </Button>
-        <Button x:Name="button_Play" Content="" HorizontalAlignment="Left" Width="49" Margin="591,437,0,125" Style="{DynamicResource ButtonStyle1}" Click="Button_Play_Click" IsEnabled="False">
+        <Button x:Name="button_Play" Content="" HorizontalAlignment="Left" Width="49" Margin="591,467,0,164" Style="{DynamicResource ButtonStyle1}" Click="Button_Play_Click" IsEnabled="False">
             <Button.Background>
                 <ImageBrush ImageSource="Pictures/Play.jpg"/>
             </Button.Background>
         </Button>
-        <Button x:Name="button_Pause" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="54" Margin="655,437,0,0" Height="46" Style="{DynamicResource ButtonStyle1}" Click="Button_Pause_Click" IsEnabled="False">
+        <Button x:Name="button_Pause" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="54" Margin="655,467,0,0" Height="46" Style="{DynamicResource ButtonStyle1}" Click="Button_Pause_Click" IsEnabled="False">
             <Button.Background>
                 <ImageBrush ImageSource="Pictures/pause.jpg"/>
             </Button.Background>
         </Button>
-        <Button x:Name="button_Stop" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="52" Margin="724,437,0,0" Height="46" Style="{DynamicResource ButtonStyle1}" Click="Button_Stop_Click" IsEnabled="False">
+        <Button x:Name="button_Stop" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="52" Margin="724,467,0,0" Height="46" Style="{DynamicResource ButtonStyle1}" Click="Button_Stop_Click" IsEnabled="False">
             <Button.Background>
                 <ImageBrush ImageSource="Pictures/stop.jpg"/>
             </Button.Background>
         </Button>
-        <Button x:Name="button_Adelante" Content="" HorizontalAlignment="Left" Margin="861,437,0,0" VerticalAlignment="Top" Width="57" Height="46" Style="{DynamicResource ButtonStyle1}" Click="Button_Adelante_Click" IsEnabled="False">
+        <Button x:Name="button_Adelante" Content="" HorizontalAlignment="Left" Margin="861,467,0,0" VerticalAlignment="Top" Width="57" Height="46" Style="{DynamicResource ButtonStyle1}" Click="Button_Adelante_Click" IsEnabled="False">
             <Button.Background>
                 <ImageBrush ImageSource="Pictures/unpasopalante.jpg"/>
             </Button.Background>
@@ -149,16 +150,16 @@
         <Button x:Name="button_Demonstration" Content="Set Example" HorizontalAlignment="Left" VerticalAlignment="Top" Width="90" Margin="182,19,0,0" Click="Button_Demonstration_Click" Height="22" Style="{DynamicResource ButtonStyle2}"/>
         <Label x:Name="label" Content="Set Example Grid:" HorizontalAlignment="Left" Margin="68,16,0,0" VerticalAlignment="Top" Width="109"/>
         <Label x:Name="label_Copy1" Content="Create Custom Grid:" HorizontalAlignment="Left" Margin="27,61,0,0" VerticalAlignment="Top" Width="150"/>
-        <Label x:Name="label_Copy" Content="Average Temperature vs Time:" HorizontalAlignment="Left" Margin="27,303,0,0" VerticalAlignment="Top" Width="194"/>
-        <Label x:Name="label_Copy2" Content="Average Phase vs Time:" HorizontalAlignment="Left" Margin="27,421,0,0" VerticalAlignment="Top" Width="150"/>
-        <Label x:Name="label_Copy3" Content="Temperature vs Time" HorizontalAlignment="Left" Margin="476,15,0,0" VerticalAlignment="Top" Width="126"/>
-        <Grid x:Name="grid2" HorizontalAlignment="Left" Height="350" VerticalAlignment="Top" Width="350"  Margin="795,53,0,0" MouseDown="Grid2_MouseDown">
+        <Label x:Name="label_Copy" Content="Average Temperature vs Time:" HorizontalAlignment="Left" Margin="27,307,0,0" VerticalAlignment="Top" Width="194"/>
+        <Label x:Name="label_Copy2" Content="Average Phase vs Time:" HorizontalAlignment="Left" Margin="21,483,0,0" VerticalAlignment="Top" Width="150"/>
+        <Label x:Name="label_Copy3" Content="Temperature vs Time" HorizontalAlignment="Left" Margin="476,31,0,0" VerticalAlignment="Top" Width="126"/>
+        <Grid x:Name="grid2" HorizontalAlignment="Left" Height="350" VerticalAlignment="Top" Width="350"  Margin="795,69,0,0" MouseDown="Grid2_MouseDown">
             <Rectangle HorizontalAlignment="Left" Height="350" VerticalAlignment="Top" Width="350" Stroke="Black" StrokeThickness="2"/>
         </Grid>
-        <Label x:Name="label_Copy4" Content="Phase vs Time" HorizontalAlignment="Left" Margin="912,19,0,0" VerticalAlignment="Top" Width="126"/>
+        <Label x:Name="label_Copy4" Content="Phase vs Time" HorizontalAlignment="Left" Margin="912,35,0,0" VerticalAlignment="Top" Width="126"/>
         <Label x:Name="label_Copy5" Content="Boundary Conditon:" HorizontalAlignment="Left" Margin="29,195,0,0" VerticalAlignment="Top" Width="150"/>
-        <Label x:Name="HelpLabel" Content="Build the environment first!" HorizontalAlignment="Left" Margin="538,505,0,0" VerticalAlignment="Top" FontSize="22" FontWeight="Bold"/>
-        <Label x:Name="timer_label" Content="0" HorizontalAlignment="Left" Margin="841,505,0,0" VerticalAlignment="Top" FontSize="22" FontWeight="Bold"/>
+        <Label x:Name="HelpLabel" Content="Build the environment first!" HorizontalAlignment="Left" Margin="538,535,0,0" VerticalAlignment="Top" FontSize="22" FontWeight="Bold"/>
+        <Label x:Name="timer_label" Content="0" HorizontalAlignment="Left" Margin="841,535,0,0" VerticalAlignment="Top" FontSize="22" FontWeight="Bold"/>
         <Button x:Name="Confirm_Button" Content="Confirm Configuration" HorizontalAlignment="Left" VerticalAlignment="Top" Width="145" Margin="85,267,0,0" Style="{DynamicResource ButtonStyle2}" Background="#FFA0FF6E" Height="24" BorderThickness="2" FontWeight="Bold" Click="Confirm_Button_Click"/>
         <Button x:Name="Custom_Variables" Content="Custom Variables" HorizontalAlignment="Left" VerticalAlignment="Top" Width="109" Margin="29,232,0,0" Style="{DynamicResource ButtonStyle2}" Click="Custom_Variables_Click"/>
         <ComboBox x:Name="Combobox_Variables" HorizontalAlignment="Left" Margin="182,230,0,0" VerticalAlignment="Top" Width="120" SelectedIndex="0" SelectionChanged="Combobox_Variables_SelectionChanged">
@@ -168,8 +169,15 @@
         </ComboBox>
         <Label Content="or" HorizontalAlignment="Left" Margin="150,227,0,0" VerticalAlignment="Top" Height="30"/>
         <Button x:Name="button_Save" Content="Save" HorizontalAlignment="Left" VerticalAlignment="Top" Width="152" Margin="993,491,0,0" Style="{DynamicResource ButtonStyle2}" Click="Button_Save_Click" Height="54" Visibility="Hidden" FontSize="20"/>
-        <Button x:Name="button_Load" Content="Load" HorizontalAlignment="Left" VerticalAlignment="Top" Width="152" Margin="993,491,0,0" Style="{DynamicResource ButtonStyle2}" IsDefault="True" Click="Button_Load_Click" Height="54" FontSize="20"/>
-        <WindowsFormsHost DockPanel.Dock="Right" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="windowsFormsHost1" Margin="30,337,906.6,193"/>
+        <Button x:Name="button_Load" Content="Load" HorizontalAlignment="Left" VerticalAlignment="Top" Width="152" Margin="993,521,0,0" Style="{DynamicResource ButtonStyle2}" IsDefault="True" Click="Button_Load_Click" Height="54" FontSize="20"/>
+        <WindowsFormsHost Name="tempPlot" Margin="29,333,853,201" Panel.ZIndex="100">
+            <zed:ZedGraphControl x:Name="tempgraph" Width="500" Height="320" />
+        </WindowsFormsHost>
+        <WindowsFormsHost Name="phasePlot" Margin="27,506,855,31">
+            <zed:ZedGraphControl x:Name="phasegraph" Width="500" Height="320" />
+        </WindowsFormsHost>
+        <Button x:Name="mkLarge1" Content="Make Larger" HorizontalAlignment="Left" VerticalAlignment="Top" Width="109" Margin="221,308,0,0" Style="{DynamicResource ButtonStyle2}" Click="MkLarge1_Click"/>
+        <Button x:Name="mkLarge2" Content="Make Larger" HorizontalAlignment="Left" VerticalAlignment="Top" Width="109" Margin="221,481,0,0" Style="{DynamicResource ButtonStyle2}" Click="MkLarge2_Click"/>
     </Grid>
 
 </Window>

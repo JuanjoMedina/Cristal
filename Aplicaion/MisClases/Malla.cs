@@ -13,9 +13,13 @@ namespace MisClases
     {
         private Stack<Celda[][]> memory=new Stack<Celda[][]>();
         private Celda[][] celdas;
+        private double avTemp = 0;
+        private double avPhase = 0;
 
-        public void Calcular(bool espejo, Variables var)
+        public double[] Calcular(bool espejo, Variables var)
         {
+            avTemp = 0;
+            avPhase = 0;
             for (int i = 1; i < celdas.Length-1; i++)
             {
                 for (int j = 1; j < celdas[i].Length-1; j++)
@@ -24,9 +28,13 @@ namespace MisClases
                     double Temp = this.celdas[i][j].ComputeTemp(var, celdas[i][j].getPhase(), celdas[i+1][j].getTemperature(),celdas[i][j].getTemperature(),celdas[i-1][j].getTemperature(),celdas[i][j+1].getTemperature(),celdas[i][j-1].getTemperature(),Phase);
                     this.celdas[i][j].setFuturePhase(Phase);
                     this.celdas[i][j].setFutureTemperature(Temp);
+                    avTemp += Temp;
+                    avPhase += Phase;
                     
                 }
             }
+            avTemp = avTemp / ((celdas.Length - 2) * (celdas[0].Length - 2));
+            avPhase = avPhase / ((celdas.Length - 2) * (celdas[0].Length - 2));
 
             if (espejo)
             {
@@ -66,6 +74,7 @@ namespace MisClases
                 }
 
             }
+            return new double[] { avTemp, avPhase };
         }
 
         public void SaveAndSet()

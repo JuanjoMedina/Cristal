@@ -17,6 +17,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using MisClases;
 using System.IO;
 using Microsoft.Win32;
+using ZedGraph;
 
 namespace Aplicaion
 {
@@ -31,8 +32,13 @@ namespace Aplicaion
         List<double> Tiempo = new List<double>() { 0 };
         Malla cellGrid = new Malla();
         bool Customvar = false;
+        double[] averages;
         Variables variables;
-        
+        Charts charts = new Charts();
+        PointPairList tempValues = new PointPairList();
+        PointPairList phaseValues = new PointPairList();
+
+
         public MainWindow()
         {
 
@@ -40,7 +46,8 @@ namespace Aplicaion
             timer.Tick += new EventHandler(timer_Tick);
             timer.Interval = new TimeSpan(0,0,0,0, incrTiempo);
             timer_label.Visibility = Visibility.Hidden;
-            windowsFormsHost1.Child = new ZedGraph.ZedGraphControl();
+            charts.CreateGraph(tempgraph, tempValues, "Temperature");
+            charts.CreateGraph(phasegraph, phaseValues, "Phase");
         }
 
         //Hace void
@@ -172,12 +179,20 @@ namespace Aplicaion
         private void timer_Tick(object sender, EventArgs e)
         {
             timer_label.Visibility = Visibility.Visible;
-            cellGrid.Calcular(Mirror, variables);
+            averages=cellGrid.Calcular(Mirror, variables);
             cellGrid.SaveAndSet();
             cellGrid.Represent();
             Started = true;
             Tiempo.Add(Math.Round(Tiempo[Tiempo.Count - 1] + variables.GetDeltaT(),6));
             timer_label.Content = Convert.ToString(Tiempo[Tiempo.Count-1])+" s";
+
+            //ZedGRaph
+            tempValues.Add(Tiempo[Tiempo.Count - 1],averages[0]);
+            phaseValues.Add(Tiempo[Tiempo.Count - 1], averages[1]);
+            tempgraph.AxisChange();
+            phasegraph.AxisChange();
+            tempgraph.Invalidate();
+            phasegraph.Invalidate();
         }
 
         //Empieza el timer
@@ -211,6 +226,14 @@ namespace Aplicaion
             cellGrid.Represent();
             Tiempo = new List<double>() { 0 };
             timer_label.Content = Convert.ToString(Tiempo[Tiempo.Count - 1]) + " s";
+
+            //ZedGraph
+            tempValues.RemoveRange(0,tempValues.Count);
+            phaseValues.RemoveRange(0, phaseValues.Count);
+            tempgraph.AxisChange();
+            phasegraph.AxisChange();
+            tempgraph.Invalidate();
+            phasegraph.Invalidate();
         }
 
         //Saca un elemento de la pila
@@ -227,7 +250,13 @@ namespace Aplicaion
                 timer_label.Content = Convert.ToString(Tiempo[Tiempo.Count - 1]) + " s";
             }
 
-
+            //ZedGraph
+            tempValues.RemoveRange(tempValues.Count-1, 1);
+            phaseValues.RemoveRange(phaseValues.Count - 1, 1);
+            tempgraph.AxisChange();
+            phasegraph.AxisChange();
+            tempgraph.Invalidate();
+            phasegraph.Invalidate();
         }
 
         //Añade un elemento de la pila
@@ -429,11 +458,21 @@ namespace Aplicaion
                 timer_label.Visibility = Visibility.Hidden;
                 DiscardGrid_Click(new object(), new RoutedEventArgs());
 
+                Tiempo = new List<double>() { 0 };
+
                 Confirm_Button.Content = "Confirm Configuration";
                 HelpLabel.Content="Build the environment first!";
 
                 //Style
                 Confirm_Button.Background = new SolidColorBrush(Color.FromArgb(255, 160, 255, 110));
+
+                //ZedGraph
+                tempValues.RemoveRange(0, tempValues.Count);
+                phaseValues.RemoveRange(0, phaseValues.Count);
+                tempgraph.AxisChange();
+                phasegraph.AxisChange();
+                tempgraph.Invalidate();
+                phasegraph.Invalidate();
             }
           
         }
@@ -622,5 +661,39 @@ namespace Aplicaion
 
         }
 
+        Thickness bigT=new Thickness(365, 0, 160, 220);
+        Thickness smT1 = new Thickness(29, 333, 853, 201);
+        Thickness smT2 = new Thickness(27, 506, 855, 31);
+        private void MkLarge1_Click(object sender, RoutedEventArgs e)
+        {
+            phasePlot.Margin = smT2;
+            mkLarge2.Content = "Make Larger";
+            if (mkLarge1.Content.ToString() == "Make Larger")
+            {
+                mkLarge1.Content = "Make Small";
+                tempPlot.Margin = bigT;
+            }
+            else
+            {
+                mkLarge1.Content = "Make Larger";
+                tempPlot.Margin = smT1;
+            }
+        }
+
+        private void MkLarge2_Click(object sender, RoutedEventArgs e)
+        {
+            tempPlot.Margin = smT1;
+            mkLarge1.Content = "Make Larger";
+            if (mkLarge2.Content.ToString() == "Make Larger")
+            {
+                mkLarge2.Content = "Make Small";
+                phasePlot.Margin = bigT;
+            }
+            else
+            {
+                mkLarge2.Content = "Make Larger";
+                phasePlot.Margin = smT2;
+            }
+        }
     }
 }
