@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ZedGraph;
 
 namespace MisClases
 {
@@ -13,12 +14,17 @@ namespace MisClases
         Variables variables;
         bool mirror;
         List<double> Tiempo;
-        public Guardado(Malla grid,Variables var, bool mirror, List<double> Tiempo)
+        PointPairList TempValues;
+        PointPairList PhaseValues;
+
+        public Guardado(Malla grid,Variables var, bool mirror, List<double> Tiempo, PointPairList temp, PointPairList phase)
         {
             this.grid = grid;
             this.variables = var;
             this.mirror = mirror;
             this.Tiempo = Tiempo;
+            this.TempValues = temp;
+            this.PhaseValues = phase;
         }
         public Malla getGrid()
         {
@@ -35,6 +41,14 @@ namespace MisClases
         public List<double> getTiempo()
         {
             return Tiempo;
+        }
+        public PointPairList getTemp()
+        {
+            return TempValues;
+        }
+        public PointPairList getPhase()
+        {
+            return PhaseValues;
         }
     }
 }

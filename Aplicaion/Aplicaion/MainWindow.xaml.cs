@@ -208,6 +208,7 @@ namespace Aplicaion
         //Starts the timer
         private void Button_Play_Click(object sender, RoutedEventArgs e)
         {
+            simSpeed.IsEnabled = true;
             timer.Start();
             HelpLabel.Content = "Simulation running";
         }
@@ -215,6 +216,7 @@ namespace Aplicaion
         //Stops the timer
         private void Button_Pause_Click(object sender, RoutedEventArgs e)
         {
+            simSpeed.IsEnabled = false;
             if (timer.IsEnabled)
             {
                 timer.Stop();
@@ -226,6 +228,7 @@ namespace Aplicaion
         //Gets all the elements out of the stack and resets the graph and the time list
         private void Button_Stop_Click(object sender, RoutedEventArgs e)
         {
+            simSpeed.IsEnabled = false;
             timer.Stop();
             HelpLabel.Content = "Simulation restarted";
             timer_label.Visibility = Visibility.Hidden;
@@ -249,6 +252,7 @@ namespace Aplicaion
         //Gets an element out of the stack and rewinds time one step
         private void Button_Atrás_Click(object sender, RoutedEventArgs e)
         {
+            simSpeed.IsEnabled = false;
             timer.Stop();
             HelpLabel.Content = "Simulation paused";
             if (cellGrid.getMemory().Count != 0)
@@ -260,20 +264,24 @@ namespace Aplicaion
                 timer_label.Content = Convert.ToString(Tiempo[Tiempo.Count - 1]) + " s";
             }
 
-            //ZedGraph
-            tempValues.RemoveRange(tempValues.Count-1, 1);
-            phaseValues.RemoveRange(phaseValues.Count - 1, 1);
-            tempgraph.AxisChange();
-            phasegraph.AxisChange();
-            tempgraph.Invalidate();
-            phasegraph.Invalidate();
+            if (tempValues.Count > 0 && phaseValues.Count>0)
+            {
+                //ZedGraph
+                tempValues.RemoveRange(tempValues.Count - 1, 1);
+                phaseValues.RemoveRange(phaseValues.Count - 1, 1);
+                tempgraph.AxisChange();
+                phasegraph.AxisChange();
+                tempgraph.Invalidate();
+                phasegraph.Invalidate();
+            }
         }
 
         //It does one timer tick
         private void Button_Adelante_Click(object sender, RoutedEventArgs e)
         {
+            simSpeed.IsEnabled = false;
+            timer.Stop();
             timer_Tick(new object(), new EventArgs());
-
             HelpLabel.Content = "Simulation paused";
         }
 
@@ -457,6 +465,7 @@ namespace Aplicaion
                 button_Atrás.IsEnabled = false;
                 button_Adelante.IsEnabled = false;
                 button_Stop.IsEnabled = false;
+                simSpeed.IsEnabled = false;
 
                 Combobox_Condition.IsEnabled = true;
                 Combobox_Variables.IsEnabled = true;
@@ -550,9 +559,10 @@ namespace Aplicaion
         private void Button_Save_Click(object sender, RoutedEventArgs e)
         {
             timer.Stop();
+            simSpeed.IsEnabled = false;
             try
             {
-                Guardado Guardar = new Guardado(cellGrid, variables,Mirror,Tiempo);
+                Guardado Guardar = new Guardado(cellGrid, variables,Mirror,Tiempo,tempValues,phaseValues);
                 SaveFileDialog Dialogo = new SaveFileDialog();
                 if (Dialogo.ShowDialog() == true)
                 {
@@ -570,7 +580,6 @@ namespace Aplicaion
         //Loads the file and initializes all settings with the information of the file
         private void Button_Load_Click(object sender, RoutedEventArgs e)
         {
-
             try
             {
                 OpenFileDialog Dialogo2 = new OpenFileDialog();
@@ -585,6 +594,12 @@ namespace Aplicaion
                     cellGrid = bac.getGrid();
                     Tiempo = bac.getTiempo();
 
+                    //Plots
+                    tempValues = bac.getTemp();
+                    phaseValues = bac.getPhase();
+                    Charts.CreateGraph(tempgraph, tempValues, "Temperature");
+                    Charts.CreateGraph(phasegraph, phaseValues, "Phase");
+
                     ColumnSlider.Value = cellGrid.getceldas()[0].Length-2;
                     RowsSlider.Value = cellGrid.getceldas().Length-2;
 
@@ -597,8 +612,8 @@ namespace Aplicaion
                     grid2.RowDefinitions.Clear();
 
 
-                //Adding Columns
-                for (int j = 0; j < ColumnSlider.Value; j++)
+                    //Adding Columns
+                    for (int j = 0; j < ColumnSlider.Value; j++)
                     {
                         grid.ColumnDefinitions.Add(new ColumnDefinition());
                         grid2.ColumnDefinitions.Add(new ColumnDefinition());
@@ -671,6 +686,14 @@ namespace Aplicaion
                     //Style
                     Confirm_Button.Background = new SolidColorBrush(Color.FromArgb(255, 255, 110, 110));
 
+                    //ZedGRaph
+                    tempgraph.AxisChange();
+                    phasegraph.AxisChange();
+                    tempgraph.Invalidate();
+                    phasegraph.Invalidate();
+
+                    //Simulation started
+                    Started = true;
                 }
         }
             catch
@@ -726,6 +749,7 @@ namespace Aplicaion
             int column = Convert.ToInt32(Math.Truncate(Location.X / (grid.Width / Convert.ToDouble(grid.ColumnDefinitions.Count))));
             if (Started)
             {
+                LabelMostrar2.Content = "Temperature:";
                 LabelMostrar.Content = Math.Truncate(cellGrid.getceldas()[row + 1][column + 1].getTemperature() * 1000) / 1000;
                 LabelMostrar.FontSize = 20;
             }
@@ -738,6 +762,7 @@ namespace Aplicaion
             int column = Convert.ToInt32(Math.Truncate(Location.X / (grid2.Width / Convert.ToDouble(grid2.ColumnDefinitions.Count))));
             if (Started)
             {
+                LabelMostrar2.Content = "Phase:";
                 LabelMostrar.Content=Math.Truncate(cellGrid.getceldas()[row + 1][column + 1].getPhase()*1000)/1000;
                 LabelMostrar.FontSize = 20;
             }
@@ -745,14 +770,28 @@ namespace Aplicaion
         //When you move out of the grid the label shows ""
         private void Grid_MouseLeave(object sender, MouseEventArgs e)
         {
-            if(Started)
+            if (Started)
+            {
                 LabelMostrar.Content = "";
+                LabelMostrar2.Content = "";
+            }
         }
 
         private void Grid2_MouseLeave(object sender, MouseEventArgs e)
         {
             if (Started)
+            {
                 LabelMostrar.Content = "";
+                LabelMostrar2.Content = "";
+            }
+        }
+
+        //Slider to change simulation speed
+        private void SimSpeed_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            var slider = sender as Slider;
+            timer.Interval = new TimeSpan(0, 0, 0, 0, Convert.ToInt32(incrTiempo / slider.Value));
+            
         }
     }
 }

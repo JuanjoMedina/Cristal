@@ -16,64 +16,67 @@ namespace MisClases
         private double avTemp = 0;
         private double avPhase = 0;
 
+        //Computes the new state for the grid
         public double[] Calcular(bool espejo, Variables var)
         {
             avTemp = 0;
             avPhase = 0;
-            for (int i = 1; i < celdas.Length-1; i++)
+            for (int i = 1; i < celdas.Length - 1; i++)
             {
-                for (int j = 1; j < celdas[i].Length-1; j++)
+                for (int j = 1; j < celdas[i].Length - 1; j++)
                 {
-                    double Phase = this.celdas[i][j].ComputePhase(var, celdas[i][j].getPhase(), celdas[i - 1][j].getPhase(), celdas[i + 1][j].getPhase(), celdas[i][j + 1].getPhase(), celdas[i][j - 1].getPhase(),celdas[i][j].getTemperature());
-                    double Temp = this.celdas[i][j].ComputeTemp(var, celdas[i][j].getPhase(), celdas[i+1][j].getTemperature(),celdas[i][j].getTemperature(),celdas[i-1][j].getTemperature(),celdas[i][j+1].getTemperature(),celdas[i][j-1].getTemperature(),Phase);
+                    double Phase = this.celdas[i][j].ComputePhase(var, celdas[i][j].getPhase(), celdas[i - 1][j].getPhase(), celdas[i + 1][j].getPhase(), celdas[i][j + 1].getPhase(), celdas[i][j - 1].getPhase(), celdas[i][j].getTemperature());
+                    double Temp = this.celdas[i][j].ComputeTemp(var, celdas[i][j].getPhase(), celdas[i + 1][j].getTemperature(), celdas[i][j].getTemperature(), celdas[i - 1][j].getTemperature(), celdas[i][j + 1].getTemperature(), celdas[i][j - 1].getTemperature(), Phase);
                     this.celdas[i][j].setFuturePhase(Phase);
                     this.celdas[i][j].setFutureTemperature(Temp);
                     avTemp += Temp;
                     avPhase += Phase;
-                    
+
                 }
             }
             avTemp = avTemp / ((celdas.Length - 2) * (celdas[0].Length - 2));
             avPhase = avPhase / ((celdas.Length - 2) * (celdas[0].Length - 2));
 
+            //if the mirror condition is chosen, this if looks for the cells of the mirror (outer ring)
             if (espejo)
             {
-                for (int i=0; i < celdas.Length; i++)
+                for (int i = 0; i < celdas.Length; i++)
                 {
                     if (i == 0)
                     {
-                        for (int j = 1; j < celdas[i].Length-1; j++)
+                        for (int j = 1; j < celdas[i].Length - 1; j++)
                         {
                             this.celdas[i][j].setFutureTemperature(this.celdas[i + 1][j].getFutureTemperature());
                             this.celdas[i][j].setFuturePhase(this.celdas[i + 1][j].getFuturePhase());
                         }
                         this.celdas[i][0].setFutureTemperature(this.celdas[1][1].getFutureTemperature());
                         this.celdas[i][0].setFuturePhase(this.celdas[1][1].getFuturePhase());
-                        this.celdas[i][celdas[i].Length-1].setFutureTemperature(this.celdas[1][celdas[i].Length - 1].getFutureTemperature());
-                        this.celdas[i][celdas[i].Length-1].setFuturePhase(this.celdas[1][celdas[i].Length - 1].getFuturePhase());
+                        this.celdas[i][celdas[i].Length - 1].setFutureTemperature(this.celdas[1][celdas[i].Length - 1].getFutureTemperature());
+                        this.celdas[i][celdas[i].Length - 1].setFuturePhase(this.celdas[1][celdas[i].Length - 1].getFuturePhase());
                     }
                     else if (i == celdas.Length)
                     {
                         for (int j = 1; j < celdas[i].Length - 1; j++)
                         {
-                            this.celdas[i][j].setFutureTemperature(this.celdas[i -1][j].getFutureTemperature());
-                            this.celdas[i][j].setFuturePhase(this.celdas[i -1][j].getFuturePhase());
+                            this.celdas[i][j].setFutureTemperature(this.celdas[i - 1][j].getFutureTemperature());
+                            this.celdas[i][j].setFuturePhase(this.celdas[i - 1][j].getFuturePhase());
                         }
-                        this.celdas[i][0].setFutureTemperature(this.celdas[i-1][1].getFutureTemperature());
-                        this.celdas[i][0].setFuturePhase(this.celdas[i-1][1].getFuturePhase());
-                        this.celdas[i][celdas[i].Length-1].setFutureTemperature(this.celdas[i-1][celdas[i].Length - 1].getFutureTemperature());
-                        this.celdas[i][celdas[i].Length-1].setFuturePhase(this.celdas[i-1][celdas[i].Length - 1].getFuturePhase());
+                        this.celdas[i][0].setFutureTemperature(this.celdas[i - 1][1].getFutureTemperature());
+                        this.celdas[i][0].setFuturePhase(this.celdas[i - 1][1].getFuturePhase());
+                        this.celdas[i][celdas[i].Length - 1].setFutureTemperature(this.celdas[i - 1][celdas[i].Length - 1].getFutureTemperature());
+                        this.celdas[i][celdas[i].Length - 1].setFuturePhase(this.celdas[i - 1][celdas[i].Length - 1].getFuturePhase());
                     }
                     else
                     {
                         this.celdas[i][0].setFutureTemperature(this.celdas[i][1].getFutureTemperature());
                         this.celdas[i][0].setFuturePhase(this.celdas[i][1].getFuturePhase());
-                        this.celdas[i][celdas[i].Length-1].setFutureTemperature(this.celdas[i][celdas[i].Length-1].getFutureTemperature());
-                        this.celdas[i][celdas[i].Length-1].setFuturePhase(this.celdas[i][celdas[i].Length-1].getFuturePhase());
+                        this.celdas[i][celdas[i].Length - 1].setFutureTemperature(this.celdas[i][celdas[i].Length - 1].getFutureTemperature());
+                        this.celdas[i][celdas[i].Length - 1].setFuturePhase(this.celdas[i][celdas[i].Length - 1].getFuturePhase());
                     }
                 }
 
             }
+            //return the average for the temperature and the phase for the plots
             return new double[] { avTemp, avPhase };
         }
 
