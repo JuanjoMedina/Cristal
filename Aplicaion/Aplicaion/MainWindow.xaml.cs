@@ -404,6 +404,8 @@ namespace Aplicaion
 
                                 //Style
                                 Confirm_Button.Background = new SolidColorBrush(Color.FromArgb(255, 255, 110, 110));
+                                LabelMostrar.Content = "Move Over The\nGrid To See Values";
+                                LabelMostrar.FontSize = 14;
                             }
                             else
                             {
@@ -724,7 +726,8 @@ namespace Aplicaion
             int column = Convert.ToInt32(Math.Truncate(Location.X / (grid.Width / Convert.ToDouble(grid.ColumnDefinitions.Count))));
             if (Started)
             {
-                LabelMostrar.Content = Math.Round(cellGrid.getceldas()[row + 1][column + 1].getTemperature(),4);
+                LabelMostrar.Content = Math.Truncate(cellGrid.getceldas()[row + 1][column + 1].getTemperature() * 1000) / 1000;
+                LabelMostrar.FontSize = 20;
             }
         }
 
@@ -735,18 +738,21 @@ namespace Aplicaion
             int column = Convert.ToInt32(Math.Truncate(Location.X / (grid2.Width / Convert.ToDouble(grid2.ColumnDefinitions.Count))));
             if (Started)
             {
-                LabelMostrar.Content=Math.Round(cellGrid.getceldas()[row + 1][column + 1].getPhase(),4);
+                LabelMostrar.Content=Math.Truncate(cellGrid.getceldas()[row + 1][column + 1].getPhase()*1000)/1000;
+                LabelMostrar.FontSize = 20;
             }
         }
         //When you move out of the grid the label shows ""
         private void Grid_MouseLeave(object sender, MouseEventArgs e)
         {
-            LabelMostrar.Content = "";
+            if(Started)
+                LabelMostrar.Content = "";
         }
 
         private void Grid2_MouseLeave(object sender, MouseEventArgs e)
         {
-            LabelMostrar.Content = "";
+            if (Started)
+                LabelMostrar.Content = "";
         }
     }
 }
