@@ -450,6 +450,7 @@ namespace Aplicaion
                 if (Customvar)
                 {
                     Customvar = false;
+                    CustomvarUnmarked = false;
                     Combobox_Variables.Items.RemoveAt(3);
                     Combobox_Variables.SelectedIndex = 0;
                 }
@@ -527,6 +528,7 @@ namespace Aplicaion
                     MessageBoxResult result = MessageBox.Show("You will erase your custom variables", "Warning", buttons, MessageBoxImage.Warning);
                     if (result == MessageBoxResult.OK)
                     {
+                        CustomvarUnmarked = false;
                         Customvar = false;
                         Combobox_Variables.Items.RemoveAt(3);
                         if (Combobox_Variables.SelectedIndex == 1)
