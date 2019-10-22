@@ -186,7 +186,7 @@ namespace Aplicaion
                 cellGrid.SaveAndSet();
                 cellGrid.Represent();
                 Tiempo.Add(Math.Round(Tiempo[Tiempo.Count - 1] + variables.GetDeltaT(), 6));
-                timer_label.Content = Convert.ToString(Tiempo[Tiempo.Count - 1]) + " s";
+                timer_label.Content =Convert.ToString(Tiempo[Tiempo.Count - 1]) + " s";
 
                 //ZedGRaph
                 tempValues.Add(Tiempo[Tiempo.Count - 1], averages[0]);
@@ -306,6 +306,8 @@ namespace Aplicaion
             RowsSlider.Value = 9;
             ColumnSlider.Value = 9;
             SetGrid_Click(new object(), new RoutedEventArgs());
+            cellGrid.getceldas()[5][5].GetRectanglePhase().StrokeThickness = 3;
+            cellGrid.getceldas()[5][5].GetRectangleTemp().StrokeThickness = 3;
             cellGrid.getceldas()[5][5].GetRectanglePhase().Fill = new SolidColorBrush(Color.FromArgb(255,0,255,0));
             cellGrid.getceldas()[5][5].GetRectangleTemp().Fill = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
             cellGrid.getceldas()[5][5].setPhase(0);
@@ -327,6 +329,8 @@ namespace Aplicaion
                 {
                     if (cellGrid.getceldas()[row + 1][column + 1].getPhase() != 0)
                     {
+                        cellGrid.getceldas()[row + 1][column + 1].GetRectanglePhase().StrokeThickness = 3;
+                        cellGrid.getceldas()[row + 1][column + 1].GetRectangleTemp().StrokeThickness = 3;
                         cellGrid.getceldas()[row + 1][column + 1].GetRectanglePhase().Fill = new SolidColorBrush(Color.FromArgb(255, 0, 255, 0));
                         cellGrid.getceldas()[row + 1][column + 1].GetRectangleTemp().Fill = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
                         cellGrid.getceldas()[row + 1][column + 1].setPhase(0);
@@ -334,6 +338,8 @@ namespace Aplicaion
                     }
                     else
                     {
+                        cellGrid.getceldas()[row + 1][column + 1].GetRectanglePhase().StrokeThickness = 1;
+                        cellGrid.getceldas()[row + 1][column + 1].GetRectangleTemp().StrokeThickness = 1;
                         cellGrid.getceldas()[row + 1][column + 1].GetRectanglePhase().Fill = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255));
                         cellGrid.getceldas()[row + 1][column + 1].GetRectangleTemp().Fill = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255));
                         cellGrid.getceldas()[row + 1][column + 1].setPhase(1);
@@ -614,12 +620,15 @@ namespace Aplicaion
                     grid2.RowDefinitions.Clear();
 
 
+
                     //Adding Columns
                     for (int j = 0; j < ColumnSlider.Value; j++)
                     {
                         grid.ColumnDefinitions.Add(new ColumnDefinition());
                         grid2.ColumnDefinitions.Add(new ColumnDefinition());
                     }
+                    //We convert the stack to list in order to serach for the first cells
+                    Celda[][][] temp = cellGrid.getMemory().ToArray();
 
                     //Adding Rows
                     Rectangle[][] rectanglesTemp = new Rectangle[cellGrid.getceldas().Length][];
@@ -641,8 +650,18 @@ namespace Aplicaion
                             BlackBrush.Color = Colors.Black;
                             rectangle.Stroke = BlackBrush;
                             rectangle2.Stroke = BlackBrush;
-                            rectangle.StrokeThickness = 1;
-                            rectangle2.StrokeThickness = 1;
+
+                            if (temp[temp.Length - 1][i][j].getPhase() == 0)
+                            {
+                                rectangle.StrokeThickness = 3;
+                                rectangle2.StrokeThickness = 3;
+                            }
+                            else
+                            {
+                                rectangle.StrokeThickness = 1;
+                                rectangle2.StrokeThickness = 1;
+                            }
+
                             rectangle.Fill = new SolidColorBrush(Colors.White);
                             rectangle2.Fill = new SolidColorBrush(Colors.White);
                             //Here we add the rectangles inside the grid
@@ -751,9 +770,12 @@ namespace Aplicaion
             int column = Convert.ToInt32(Math.Truncate(Location.X / (grid.Width / Convert.ToDouble(grid.ColumnDefinitions.Count))));
             if (Started)
             {
-                LabelMostrar2.Content = "Temperature:";
+                LabelMostrar1.Content = "Temperature:";
                 LabelMostrar.Content = Math.Truncate(cellGrid.getceldas()[row + 1][column + 1].getTemperature() * 1000) / 1000;
                 LabelMostrar.FontSize = 20;
+                LabelMostrar3.Content = "Phase:";
+                LabelMostrar4.Content = Math.Truncate(cellGrid.getceldas()[row + 1][column + 1].getPhase() * 1000) / 1000;
+                LabelMostrar4.FontSize = 20;
             }
         }
 
@@ -764,9 +786,12 @@ namespace Aplicaion
             int column = Convert.ToInt32(Math.Truncate(Location.X / (grid2.Width / Convert.ToDouble(grid2.ColumnDefinitions.Count))));
             if (Started)
             {
-                LabelMostrar2.Content = "Phase:";
-                LabelMostrar.Content=Math.Truncate(cellGrid.getceldas()[row + 1][column + 1].getPhase()*1000)/1000;
+                LabelMostrar1.Content = "Temperature:";
+                LabelMostrar.Content = Math.Truncate(cellGrid.getceldas()[row + 1][column + 1].getTemperature() * 1000) / 1000;
                 LabelMostrar.FontSize = 20;
+                LabelMostrar3.Content = "Phase:";
+                LabelMostrar4.Content = Math.Truncate(cellGrid.getceldas()[row + 1][column + 1].getPhase() * 1000) / 1000;
+                LabelMostrar4.FontSize = 20;
             }
         }
         //When you move out of the grid the label shows ""
@@ -775,7 +800,9 @@ namespace Aplicaion
             if (Started)
             {
                 LabelMostrar.Content = "";
-                LabelMostrar2.Content = "";
+                LabelMostrar1.Content = "";
+                LabelMostrar3.Content = "";
+                LabelMostrar4.Content = "";
             }
         }
 
@@ -784,7 +811,9 @@ namespace Aplicaion
             if (Started)
             {
                 LabelMostrar.Content = "";
-                LabelMostrar2.Content = "";
+                LabelMostrar1.Content = "";
+                LabelMostrar3.Content = "";
+                LabelMostrar4.Content = "";
             }
         }
 
@@ -793,6 +822,7 @@ namespace Aplicaion
         {
             var slider = sender as Slider;
             timer.Interval = new TimeSpan(0, 0, 0, 0, Convert.ToInt32(incrTiempo / slider.Value));
+            sliderValue.Text = "x" + simSpeed.Value.ToString();
             
         }
     }

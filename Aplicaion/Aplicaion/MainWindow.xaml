@@ -178,8 +178,8 @@
         </WindowsFormsHost>
         <Button x:Name="mkLarge1" Content="Make Larger" HorizontalAlignment="Left" VerticalAlignment="Top" Width="109" Margin="221,308,0,0" Style="{DynamicResource ButtonStyle2}" Click="MkLarge1_Click"/>
         <Button x:Name="mkLarge2" Content="Make Larger" HorizontalAlignment="Left" VerticalAlignment="Top" Width="109" Margin="221,481,0,0" Style="{DynamicResource ButtonStyle2}" Click="MkLarge2_Click"/>
-        <Label x:Name="LabelMostrar" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="752,430,0,0" Height="46" Width="128" FontSize="14"/>
-        <Label x:Name="LabelMostrar2" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="624,430,0,0" Height="46" Width="128" FontSize="18" FontWeight="Bold"/>
+        <Label x:Name="LabelMostrar" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="555,430,0,0" Height="46" Width="128" FontSize="14"/>
+        <TextBlock x:Name="sliderValue" HorizontalAlignment="Left" Margin="861,543,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="38" FontSize="14" Height="19"/>
         <Slider x:Name="simSpeed" HorizontalAlignment="Left" Margin="661,542,0,0"     IsSnapToTickEnabled="True" TickFrequency="0.5" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Width="182" Maximum="8" SmallChange="0.5" LargeChange="0.5" Cursor="Hand" ValueChanged="SimSpeed_ValueChanged" Minimum="0.5" Value="1" IsEnabled="False">
             <Slider.RenderTransform>
                 <TransformGroup>
@@ -190,7 +190,9 @@
                 </TransformGroup>
             </Slider.RenderTransform>
         </Slider>
-        <TextBlock x:Name="sliderValue" HorizontalAlignment="Left" Text="{Binding ElementName=simSpeed,Path=Value}" Margin="861,543,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="19" FontSize="14"/>
+        <Label x:Name="LabelMostrar1" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="389,430,0,0" Height="46" Width="128" FontSize="18" FontWeight="Bold"/>
+        <Label x:Name="LabelMostrar3" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="841,430,0,0" Height="46" Width="128" FontSize="18" FontWeight="Bold"/>
+        <Label x:Name="LabelMostrar4" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="993,430,0,0" Height="46" Width="128" FontSize="18"/>
     </Grid>
 
 </Window>
